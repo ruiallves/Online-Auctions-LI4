@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Online_Auctions_LI4.Filters;
 using Online_Auctions_LI4.Models;
 using System.Diagnostics;
 
 namespace Online_Auctions_LI4.Controllers
 {
+    [PaginaParaUserLogado]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,6 +24,12 @@ namespace Online_Auctions_LI4.Controllers
         {
             return View();
         }
+        [PaginaParaLeiloeiro]
+        public IActionResult CriarLeilao()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
