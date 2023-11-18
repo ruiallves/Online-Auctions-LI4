@@ -1,4 +1,4 @@
-﻿@model LoginModel
+﻿@model UserModel
 @{
     Layout = "_layoutDeslogado";
     ViewData["Tittle"] = "Register";
@@ -62,47 +62,45 @@
 
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4">
 
-            <form asp-controller="Login" asp-action="Entrar" method="post" style="width: 30rem;">
-
-                <div class="mb-2">
-                    <h2 class="mb-2 pb-3" style="letter-spacing: 1px; font-weight:bold;">Sign Up</h2>
+            <form asp-controller="Register" asp-action="Registar" method="post" style="width: 30rem;">
+                <div class="mb-3">
+                    <h2 class="pb-2" style="letter-spacing: 1px; font-weight:bold;">Sign Up</h2>
                     <h6 class="fw-bold" style="color: #9FA5AB;font-size: 10px;font-family: Verdana, Geneva, Tahoma, sans-serif">Insira os seus dados para se registar na plataforma.</h6>
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">Nome</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Nome" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="text" asp-for="Name" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Nome" />
+               
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">Username</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Username" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="text" asp-for="Username" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Username" />
+            
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">Email</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Email" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="email" asp-for="Email" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu Email" />
+            
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">Password</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira a sua Password" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="password" asp-for="Password" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira a sua Password" />
+            
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">NIF</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu NIF" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="number" asp-for="NIF" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira o seu NIF" />
+   
                 </div>
 
                 <div class="form-outline mb-2">
                     <label class="form-label fw-bold" for="login">Morada</label>
-                    <input type="text" asp-for="Login" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira a sua Morada" />
-                    @Html.ValidationMessageFor(x => x.Login)
+                    <input type="text" asp-for="morada" id="login" style="border: 2px solid black" class="form-control-my form-control-lg" placeholder="Insira a sua Morada" />
                 </div>
 
                 <div class="pt-1" style="margin-bottom:20px;margin-top:20px;">
