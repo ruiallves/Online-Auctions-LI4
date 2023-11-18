@@ -14,7 +14,7 @@ namespace Online_Auctions_LI4.Repositorio
 
         public UserModel ProcuraPorLogin(string login)
         {
-            return _context.Users.FirstOrDefault(x => x.Username.ToUpper() == login.ToUpper());
+            return _context.Users.FirstOrDefault(x => x.Email.ToUpper() == login.ToUpper());
         }
     }
 }
