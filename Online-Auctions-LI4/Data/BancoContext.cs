@@ -11,5 +11,8 @@ namespace Online_Auctions_LI4.Data
         }
 
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<LeilaoModel> Leilao { get; set;}
+        public DbSet<ProdutoModel> Produto { get; set; }
+
     }
 }

@@ -27,10 +27,10 @@
     #navbar {
       background: white;
       color: rgb(13, 26, 38);
-      position: fixed;
+      position: static;
       top: 0;
-      height: 60px;
-      line-height: 60px;
+      height: 50px;
+      line-height: 50px;
       width: 100vw;
       z-index: 10;
     }
@@ -121,6 +121,13 @@
   /* transition: 0s; */
 }
 
+    #linha-cinza {
+        width: 100%;
+        height: 1px;
+        background-color: #ccc; /* Cor cinza */
+        margin-top: 50px; /* Ajuste conforme a altura da barra de navegação */
+    }
+
 </style>
 
 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
@@ -129,13 +136,15 @@
         <!-- Navbar Logo -->
         <div class="logo">
             <!-- Logo Placeholder for Illustration -->
-            <a href="#home"><img width="130px" height="auto" src="/Media/BragaLeiloesAt.png"></a>
+            <a asp-controller="Home" asp-action="Index"><img width="130px" height="auto" src="/Media/BragaLeiloesAt.png"></a>
         </div>
 
         <!-- Navbar Links -->
         <ul id="menu">
-
-            <!--<li><a href="#home"><img src="~/Media/chat-118.png" style="width: 30px"/></a></li>-->
+            @if (Model.UserEnum == Online_Auctions_LI4.enums.UserEnum.Leiloeiro || Model.UserEnum == Online_Auctions_LI4.enums.UserEnum.Admin)
+            {
+                <li><a asp-controller="Produto" asp-action="Index">CRIAR LEILÃO</a></li>
+            }
             <!--
             -->
             <li><a href="#home"><img src="~/Media/chat-118.png" style="width: 30px" /></a></li>
@@ -144,7 +153,7 @@
             <li><a href="#home"><img src="~/Media/3106773.png" style="width: 30px" /></a></li>
             <!--
             -->
-            <li><a href="#home"><img src="~/Media/sign-out-icon-3.png" style="width: 30px" /></a></li>
+            <li><a asp-controller="Login" asp-action="Sair"><img src="~/Media/sign-out-icon-3.png" style="width: 30px" /></a></li>
         </ul>
     </div>
 </nav>

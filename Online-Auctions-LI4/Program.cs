@@ -16,6 +16,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddScoped<IUserRepositorio, UserRepositorio>();
 builder.Services.AddScoped<ISessao, Sessao>();
+builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
 
 builder.Services.AddSession(o =>
 {
