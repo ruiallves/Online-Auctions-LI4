@@ -16,6 +16,16 @@ namespace Online_Auctions_LI4.Models
         [Required]
         public Double PrecoBase { get; set; }
         [Required]
+        public string Categoria { get; set; }
+        [Required]
+        public string AreaUtil { get; set; }
+        [Required]
+        public string Tipologia { get; set; }
+        [Required]
+        public string Condicao { get; set; }
+        [Required]
+        public string CertificadoEnergetico { get; set; }
+        [Required]
         public int Utilizador_ID { get; set; }
         [Required]
         public int Categoria_ID{ get; set; }

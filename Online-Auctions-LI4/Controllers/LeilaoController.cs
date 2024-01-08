@@ -25,5 +25,11 @@ namespace Online_Auctions_LI4.Controllers
             _produtoRepositorio.Adicionar(produto);
             return RedirectToAction("Index");
         }
+
+        public ViewResult getLeilao(int id)
+        {
+            var product = _produtoRepositorio.getProductByID(id);
+            return View(product);
+        }
     }
 }

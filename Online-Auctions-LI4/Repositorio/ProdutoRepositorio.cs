@@ -23,5 +23,10 @@ namespace Online_Auctions_LI4.Repositorio
         {
             return _bancoContext.Produto.ToList();
         }
+
+        public ProdutoModel getProductByID(int id)
+        {
+            return _bancoContext.Produto.Find(id);
+        }
     }
 }
