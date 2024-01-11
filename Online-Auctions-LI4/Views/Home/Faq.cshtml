@@ -3,16 +3,37 @@
 }
 
 <style>
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px olivedrab;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: yellowgreen;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #7bac10;
+ }
     
 body {
   color: #333;
   background: #fcfcfc;
   font-family: 'Raleway', sans-serif;
   overflow-x: hidden;
+  margin-bottom: 20%;
 }
 
 .faq-header{
-  font-size: 42px;
+  font-size: 35px;
   border-bottom: 1px dotted #ccc;
   padding: 24px;
 }
@@ -22,12 +43,12 @@ body {
 }
 
 .faq-question {
-  padding: 10px 0;
+  padding: 20px 0;
   border-bottom: 1px dotted #ccc;
 }
 
 .panel-title {
-  font-size: 20px;
+  font-size: 18px;
   width: 100%;
   position: relative;
   margin: 0;
@@ -37,7 +58,7 @@ body {
 }
 
 .panel-content {
-  font-size: 15px;
+  font-size: 13px;
   padding: 0px 14px;
   margin: 0 40px;
   height: 0;
@@ -87,6 +108,7 @@ body {
 }
 
 
+
 </style>
 
     <div class="faq-header">Frequently Asked Questions</div>
@@ -99,41 +121,35 @@ body {
             <div class="panel-content">O valor mínimo de licitação face ao valor de mercado está dependente de vários fatores, como a tipologia, a localização geográfica ou a oferta de serviços na zona, assim como do estado do ativo em questão</div>
         </div>
         <div class="faq-question">
-            <input id="q1" type="checkbox" class="panel">
+            <input id="q2" type="checkbox" class="panel">
             <div class="plus">+</div>
-            <label for="q1" class="panel-title">Em que estado de conservação se encontram os ativos presentes a leilão?</label>
+            <label for="q2" class="panel-title">Em que estado de conservação se encontram os ativos presentes a leilão?</label>
             <div class="panel-content">Os ativos são vendidos no estado em que se encontram no momento da sua arrematação. Tendo em consideração que todos os imóveis oriundos de processos de insolvência/executivos foram outrora habitados ou detidos pela atual massa insolvente/executados, sendo assim bens usados, torna-se essencial a visita aos mesmos, para que o possível comprador possa licitar sem reservas.</div>
         </div>
         <div class="faq-question">
-            <input id="q1" type="checkbox" class="panel">
+            <input id="q3" type="checkbox" class="panel">
             <div class="plus">+</div>
-            <label for="q1" class="panel-title">Posso proceder à arrematação de bens sem os ter previamente visitado?</label>
-            <div class="panel-content">Pode, à sua responsabilidade. Os bens são vendidos nas condições, estado físico e jurídico em que se encontram, pelo que a LEILOSOC® Worldwide declina qualquer responsabilidade relativamente ao seu estado de conservação ou funcionamento. Desta forma, as fotografias presentes no site/catálogo podem não ser suficientemente esclarecedoras de forma a fazer uma avaliação justa do ativo que pretende arrematar. Recomenda-se, assim, a inspeção prévia do imóvel ou móvel.</div>
-        </div>
-        <div class="faq-question">
-            <input id="q1" type="checkbox" class="panel">
-            <div class="plus">+</div>
-            <label for="q1" class="panel-title">É possível visitar os imóveis e bens móveis que vão ser leiloados antes do término do leilão?</label>
+            <label for="q3" class="panel-title">É possível visitar os imóveis e bens móveis que vão ser leiloados antes do término do leilão?</label>
             <div class="panel-content">Sim. Não só é possível, como é encorajado. Os ativos devem sempre ser visitados antes da realização de uma licitação. A organização das visitas é da responsabilidade da LEILOSOC® Worldwide, que pode ter um dia pré-definido ou ser agendada com o responsável pelos leilões. No entanto, a inspeção do ativo é de responsabilidade do comprador, não podendo a falta desta avaliação ser imputada à LEILOSOC® Worldwide.</div>
         </div>
 
         <div class="faq-question">
-            <input id="q2" type="checkbox" class="panel">
+            <input id="q4" type="checkbox" class="panel">
             <div class="plus">+</div>
-            <label for="q2" class="panel-title">A quem pertencem os ativos presentes a leilão?</label>
+            <label for="q4" class="panel-title">A quem pertencem os ativos presentes a leilão?</label>
             <div class="panel-content">Os ativos em venda são propriedade do processo de insolvência ou executivo, ou de um vendedor particular (a título individual ou coletivo). O proprietário, no caso de processos judiciais, está devidamente identificado na descrição do leilão que se encontra na plataforma. Caso de trate de um vendedor particular, o mesmo pode escolher se a sua identificação é ou não publicada na plataforma de leilões.</div>
         </div>
         <div class="faq-question">
-            <input id="q2" type="checkbox" class="panel">
+            <input id="q5" type="checkbox" class="panel">
             <div class="plus">+</div>
-            <label for="q2" class="panel-title">Os ativos em venda têm garantia?</label>
+            <label for="q5" class="panel-title">Os ativos em venda têm garantia?</label>
             <div class="panel-content">Não. Os bens provenientes de massas insolventes são vendidos no estado físico e jurídico em que se encontram, livres de ónus ou encargos, sem garantias de quaisquer vícios que possam surgir ou que eventualmente existam.</div>
         </div>
 
         <div class="faq-question">
-            <input id="q3" type="checkbox" class="panel">
+            <input id="q6" type="checkbox" class="panel">
             <div class="plus">+</div>
-            <label for="q3" class="panel-title">Os imóveis têm toda a documentação exigida por lei?</label>
+            <label for="q6" class="panel-title">Os imóveis têm toda a documentação exigida por lei?</label>
             <div class="panel-content">
                 Nem sempre, depende do vendedor.
                 Se o vendedor for uma massa insolvente, esta está dispensada por lei de exibir licença de utilização, certificado energético ou ficha técnica, embora estes documentos possam existir. Por se tratar de uma venda judicial, o imóvel pode ser vendido e escriturado sem esta documentação, dado que se trata de uma exceção à lei.
