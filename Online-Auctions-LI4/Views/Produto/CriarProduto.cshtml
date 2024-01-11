@@ -5,33 +5,180 @@
 
 <style>
 
+        .pagToda {
+        }
+
+        .container form .form-row {
+            display: flex;
+            margin: 32px 0;
+        }
+
+        form .form-row .input-data {
+            width: 100%;
+            height: 40px;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        form .form-row .textarea {
+            height: 200px;
+        }
+
+        .input-data input {
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 3px;
+            width: 100%;
+        }
+
+        form .form-row .textarea {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; 
+            margin-bottom: 20px; 
+            width: 100%;
+        }
+
+        form .form-row .textarea label {
+            margin-bottom: 4px; 
+        }
+
+        form .form-row .input-data label {
+            margin-bottom: 4px;
+        }
+
+        form .form-row .textarea textarea {
+            width: 100%; 
+            border: 2px solid black;
+            border-radius: 5px;
+            height: 100%;
+            padding: 3px;
+        }
+
+        form .form-row .input-data select {
+            width: 100%;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 3px;
+            height: 33px; 
+        }
+
+
 </style>
 
 <div class="pagToda">
     
-    <form asp-controller="Register" asp-action="Registar" method="post" style="width: 30rem;">
+    <form asp-controller="Produto" asp-action="Adicionar" method="post" style="width: 30rem;">
+        <div class="container">
 
-        <div class="parteEsquerda">
+            <div class="parteEsquerda">
 
-            <div class="mb-3">
-                <h2 class="pb-2" style="letter-spacing: 1px; font-weight:bold;">Adicionar Produto</h2>
-            </div>
+                <div class="mb-3">
+                    <h2 class="pb-2" style="letter-spacing: 1px; font-weight:bold; margin-top: 50px;">Adicionar Produto</h2>
 
-            <div class="forms">
-                
-                <div class="forms-esq">
+                    <div class="form-row">
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Preço Base(€)</label>
+                            <input asp-for="PrecoBase" type="text" required placeholder="Preço Base">
+                            <div class="underline"></div>
+                        </div>
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Tipologia</label>
+                            <select required asp-for="Tipologia">
+                                <option value="t0">T0</option>
+                                <option value="t1">T1</option>
+                                <option value="t2">T2</option>
+                                <option value="t3">T3</option>
+                                <option value="t4">T4</option>
+                                <option value="t5">T5</option>
+                                <option value="t6">T6</option>
+                                <option value="t7">T7</option>
+                                <option value="t8">T8</option>
+                                <option value="t9">T9</option>
+                                <option value="t10">T10</option>
+                            </select>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Categoria</label>
+                            <select required asp-for="Categoria">
+                                <option value="apartamento">Apartamento</option>
+                                <option value="casa">Casa</option>
+                                <option value="condominio">Condomínio</option>
+                                <option value="moradia">Moradia</option>
+                                <option value="terrenos">Terrenos</option>
+                                <option value="predios">Predios</option>
+                            </select>
+                            <div class="underline"></div>
+                        </div>
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Condição</label>
+                            <select required asp-for="Condicao">
+                                <option value="novo">Novo</option>
+                                <option value="usado">Usado</option>
+                                <option value="construcao">Em Construção</option>
+                                <option value="renovado">Renovado</option>
+                                <option value="ruina">Ruina</option>
+                            </select>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Área Útil</label>
+                            <input asp-for="AreaUtil" type="text" required placeholder="Área Útil(m)">
+                            <div class="underline"></div>
+                        </div>
+                        <div class="input-data">
+                            <label for="" style="font-weight:bold">Certificado Energético</label>
+                            <select required asp-for="CertificadoEnergetico">
+                                <option value="a">A+</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="b">B-</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                                <option value="f">F</option>
+                                <option value="g">G</option>
+                            </select>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+
+                    <div class="parteDireita">
+                        <div class="form-row">
+                            <div class="input-data">
+                                <label for="" style="font-weight:bold">Selecione a Imagem</label>
+                                <input asp-for="Imagem" type="file" accept="image/*" required>
+                                <div class="underline"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="textarea">
+                            <label for="" style="font-weight:bold">Descrição</label>
+                            <textarea asp-for="Descricao" required placeholder="Preencha a descrição aqui"></textarea>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-1" style="margin-top:20px;">
+                        <button class="btn btn-dark btn-block w-100" style="border-radius: 10px;" type="submit">ADICIONAR PRODUTO +</button>
+                    </div>
 
                 </div>
 
-
             </div>
 
-        </div>
-
-        <div class="parteDireita">
+         
 
         </div>
-
     </form>
 
 </div>

@@ -40,8 +40,15 @@ namespace Online_Auctions_LI4.Controllers
 
         public IActionResult Adicionar(ProdutoModel model)
         {
+            model.Utilizador_ID = idSessão();
             _produtoRepositorio.Adicionar(model);
             return RedirectToAction("Index", "Produto");
+        }
+
+        public int idSessão()
+        {
+            UserModel user = _sessao.BuscarSessaoDoUser();
+            return user.Id;
         }
     }
 }
