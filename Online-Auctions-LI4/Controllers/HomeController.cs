@@ -20,12 +20,7 @@ namespace Online_Auctions_LI4.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        [PaginaParaLeiloeiro]
-        public IActionResult CriarLeilao()
+        public IActionResult Faq()
         {
             return View();
         }
