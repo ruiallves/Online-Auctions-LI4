@@ -9,20 +9,17 @@ namespace Online_Auctions_LI4.Models
         [Key]
         [Required]
         public int Id { get; set; }
-        [Required]
-        public string Titulo { get; set; }
-        [Required]
         public DateTime DataIncial { get; set; }
-        [Required]
         public DateTime DataFinal { get; set; }
         [Required]
-        public int Quantia { get; set; }
+        public Double Quantia { get; set; }
         [Required]
         public int Produto_ID { get; set; }
-        [Required]
         public int Licitacao_ID { get; set; }
-        [Required]
         public int HistoricoDeLances_ID { get; set; }
+        [Required]
+        public LeilaoEnum Status { get; set; }
+        public string Imagem { get; set; }
     }
 
 }

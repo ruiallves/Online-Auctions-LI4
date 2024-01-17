@@ -39,18 +39,21 @@ namespace Online_Auctions_LI4.Migrations
                     b.Property<int>("HistoricoDeLances_ID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Imagem")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Licitacao_ID")
                         .HasColumnType("int");
 
                     b.Property<int>("Produto_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantia")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantia")
+                        .HasColumnType("float");
 
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -92,10 +95,18 @@ namespace Online_Auctions_LI4.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Localizacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("PrecoBase")
                         .HasColumnType("float");
 
                     b.Property<string>("Tipologia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

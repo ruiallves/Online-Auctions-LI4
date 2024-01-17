@@ -4,208 +4,196 @@
 }
 
 <style>
+
     /* Basic Styling */
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
- 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 15px;
-  display: flex;
-}
 
-/* Columns */
-.left-column {
-  width: 65%;
-  position: relative;
-}
+    body {
+        line-height: 1.5;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 120px; /* Ou ajuste conforme necessário */
+        margin-bottom: 20%;
+    }
  
-.right-column {
-  width: 35%;
-  margin-top: 60px;
-}
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px;
+      display: flex;
+    }
 
-/* Left Column */
-.left-column img {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
+    /* Columns */
+    .left-column {
+      width: 65%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 60px;
+    }
  
-.left-column img.active {
-  opacity: 1;
-}
+    .right-column {
+      width: 35%;
+      margin-top: 60px;
+    }
 
-/*Imagem*/
+    .secundarias {
+        margin-top: 10px;
+    }
+
+    /*Imagem*/
 
 
-/* Product Description */
-.product-description {
-  border-bottom: 1px solid #E1E8EE;
-  margin-bottom: 10px;
-}
-.product-description span {
-  font-size: 10px;
-  color: #358ED7;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-.product-description h1 {
-  font-weight: 300;
-  font-size: 50px;
-  color: #43484D;
-  letter-spacing: -2px;
-}
-.product-description p {
-  font-size: 15px;
-  font-weight: 300;
-  color: #86939E;
-  line-height: 20px;
-}
+    /* Product Description */
+    .product-description {
+      border-bottom: 1px solid #E1E8EE;
+      margin-bottom: 10px;
+    }
+    .product-description span {
+      font-size: 10px;
+      color: #358ED7;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .product-description h1 {
+      font-weight: 300;
+      font-size: 50px;
+      color: #43484D;
+      letter-spacing: -2px;
+    }
+    .product-description p {
+      font-size: 15px;
+      font-weight: 300;
+      color: #86939E;
+      line-height: 20px;
+    }
 
-/* Product Color */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  font-size: 15px;
-}
+    /* Product Color */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 10px;
+    }
 
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      font-size: 15px;
+    }
 
-/* Cable Configuration */
-.cable-choose {
-  margin-bottom: 20px;
-}
- 
-.cable-choose button {
-  border: 2px solid ;
-  border-radius: 6px;
-  padding: 13px 20px;
-  font-size: 15px;
-  color: white;
-  background-color: #346cb5;
-  cursor: pointer;
-  transition: all .5s;
-}
- 
-.cable-choose button:hover,
-.cable-choose button:active,
-.cable-choose button:focus {
-  border: 2px solid #86939E;
-  outline: none;
-}
- 
-.cable-config {
-  border-bottom: 1px solid #E1E8EE;
-  margin-bottom: 20px;
-}
- 
-.cable-config a {
-  text-decoration: none;
-  font-size: 15px;
-  position: relative;
-  margin: 10px 0;
-  display: inline-block;
-  font-weight: bolder;
-  margin-left: 10px;
-}
- 
-.cable-config a:before {
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  border: 2px solid rgba(53, 142, 215, 0.5);
-  display: inline-block;
-  text-align: center;
-  line-height: 16px;
-  opacity: 0.5;
-  margin-right: 5px;
-}
 
-/* Product Price */
-.product-price {
-  display: flex;
-  align-items: center;
-}
- 
-.product-price span {
-  font-size: 26px;
-  font-weight: 300;
-  color: #43474D;
-  margin-right: 20px;
-}
- 
-.cart-btn {
-  display: inline-block;
-  background-color: #9fa5ab;
-  border-radius: 6px;
-  font-size: 16px;
-  color: #FFFFFF;
-  text-decoration: none;
-  padding: 12px 30px;
-  margin-left: 20px;
-  transition: all .5s;
-}
-.cart-btn:hover {
-  background-color: black;
-}
-textarea {
-  width: 100%;
-  height: 40px;
-  padding: 7px 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
-  resize: none;
-}
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
 
-/* Responsive */
-@media (max-width: 940px) {
-  .container {
-    flex-direction: column;
-    margin-top: 60px;
-  }
+    /* Cable Configuration */
+    .cable-choose {
+      margin-bottom: 20px;
+    }
  
-  .left-column,
-  .right-column {
-    width: 100%;
-  }
+    .cable-choose button {
+      border: 2px solid ;
+      border-radius: 6px;
+      padding: 13px 20px;
+      font-size: 15px;
+      color: white;
+      background-color: #346cb5;
+      cursor: pointer;
+      transition: all .5s;
+    }
  
-  .left-column img {
-    width: 300px;
-    right: 0;
-    top: -65px;
-    left: initial;
-  }
-}
+    .cable-choose button:hover,
+    .cable-choose button:active,
+    .cable-choose button:focus {
+      border: 2px solid #86939E;
+      outline: none;
+    }
  
-@media (max-width: 535px) {
-  .left-column img {
-    width: 220px;
-    top: -85px;
-  }
+    .cable-config {
+      border-bottom: 1px solid #E1E8EE;
+      margin-bottom: 20px;
+    }
+ 
+    .cable-config a {
+      text-decoration: none;
+      font-size: 15px;
+      position: relative;
+      margin: 10px 0;
+      display: inline-block;
+      font-weight: bolder;
+      margin-left: 10px;
+    }
+ 
+    .cable-config a:before {
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      border: 2px solid rgba(53, 142, 215, 0.5);
+      display: inline-block;
+      text-align: center;
+      line-height: 16px;
+      opacity: 0.5;
+      margin-right: 5px;
+    }
+
+    /* Product Price */
+    .product-price {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .product-price span {
+      font-size: 26px;
+      font-weight: 300;
+      color: #43474D;
+      margin-right: 20px;
+    }
+ 
+    .cart-btn {
+      display: inline-block;
+      background-color: #9fa5ab;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #FFFFFF;
+      text-decoration: none;
+      padding: 12px 30px;
+      margin-left: 20px;
+      transition: all .5s;
+    }
+    .cart-btn:hover {
+      background-color: black;
+    }
+    textarea {
+      width: 100%;
+      height: 40px;
+      padding: 7px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      resize: none;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 10px #D3D3D3;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #D3D3D3;
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C0C0C0;
+        }
 }
 
 
@@ -215,9 +203,22 @@ textarea {
 
     <!-- Left Column / Headphones Image -->
     <div class="left-column">
-      <img data-image="black" src="images/black.png" alt="">
-      <img data-image="blue" src="images/blue.png" alt="">
-      <img data-image="red" class="active" src="images/red.png" alt="">
+        @if (!string.IsNullOrEmpty(Model.Imagem))
+        {
+            <img src="@Url.Content("~/" + Model.Imagem)" style="width: 86%;" alt="tazonde iamgem">
+        }
+        else
+        {
+            <p>Imagem não encontrada</p>
+        }
+
+      <div class="secundarias">
+            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
+            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
+            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
+            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
+      </div>
+
     </div>
 
 
@@ -270,7 +271,7 @@ textarea {
         <div class="licitaçao">
           <span>Licitação direta</span>
           <div class="product-price">
-            <textarea class="textarea" asp-for="Descricao" required placeholder="Valor $"></textarea>
+            <textarea class="textarea" required placeholder="Valor $"></textarea>
             <a  class="cart-btn">Licitação</a>
           </div>
         </div>

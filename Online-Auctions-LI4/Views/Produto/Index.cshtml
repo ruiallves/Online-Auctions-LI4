@@ -5,13 +5,13 @@
 
 <style>
 
-    .top {
-        margin-top: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: 'Open Sans', sans-serif;
-    }
+        .top {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+        }
 
         .top a {
             background-color: black;
@@ -19,6 +19,13 @@
             padding: 8px 8px;
             border-radius: 10px;
         }
+
+        .produto-display{
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
 </style>
 
 <div class="top">
@@ -27,8 +34,48 @@
 
 </div>
 
-@foreach (var produto in Model)
+@if (Model != null && Model.Any())
 {
-    <p>Nome do Produto: @produto.Descricao</p>
-    <p>Preço do Produto: @produto.PrecoBase</p>
+    @foreach (var produto in Model)
+    {
+        <div class="produto-display">
+
+            <div class="produto-image">
+                <p>@produto.Imagem</p>
+            </div>
+
+            <div class="produto-texto">
+
+                <div class="produto-titulo">
+                    @produto.Titulo
+                </div>
+                
+                <div class="produto-localizacao">
+                    @produto.Localizacao
+                </div>
+
+                <div class="produto-descricao">
+                    @produto.Descricao
+                </div>
+            </div>
+
+            <div class="produto-info-preco">
+
+                <div class="produto-preco-base">
+                    @produto.PrecoBase
+                </div>
+
+                <div class="produto-botao">
+                    <button class="btn btn-dark btn-block w-100" type="submit">Iniciar Leilão</button>
+                </div>
+            </div>
+
+
+            <p>Preço do Produto: @produto.PrecoBase</p>
+        </div>
+    }
+}
+else
+{
+    <p style="color: gray; margin-top: 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.7px;">Não encontramos nenhum produto no seu perfil.</p>
 }

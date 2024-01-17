@@ -14,11 +14,13 @@ namespace Online_Auctions_LI4.Controllers
     {
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly ISessao _sessao;
+        private readonly ILeilaoRepositorio _leilaoRepositorio;
 
-        public ProdutoController(IProdutoRepositorio produtoRepositorio, ISessao sessao)
+        public ProdutoController(IProdutoRepositorio produtoRepositorio, ISessao sessao, ILeilaoRepositorio leilaoRepositorio)
         {
-              _produtoRepositorio = produtoRepositorio;
-              _sessao = sessao;
+            _produtoRepositorio = produtoRepositorio;
+            _sessao = sessao;
+            _leilaoRepositorio = leilaoRepositorio;
         }
         public IActionResult Index()
         {
@@ -42,6 +44,12 @@ namespace Online_Auctions_LI4.Controllers
         {
             model.Utilizador_ID = idSessão();
             _produtoRepositorio.Adicionar(model);
+            LeilaoModel leilaoModel = new LeilaoModel();
+            leilaoModel.Produto_ID = model.Id;
+            leilaoModel.Quantia = model.PrecoBase;
+            leilaoModel.Status = enums.LeilaoEnum.Espera;
+            leilaoModel.Imagem = model.Imagem;
+            _leilaoRepositorio.Adicionar(leilaoModel);
             return RedirectToAction("Index", "Produto");
         }
 
@@ -50,5 +58,6 @@ namespace Online_Auctions_LI4.Controllers
             UserModel user = _sessao.BuscarSessaoDoUser();
             return user.Id;
         }
+
     }
 }
