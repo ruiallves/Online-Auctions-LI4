@@ -1,11 +1,15 @@
 ﻿using Online_Auctions_LI4.enums;
 using Online_Auctions_LI4.Helper;
+using Online_Auctions_LI4.Repositorio;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Online_Auctions_LI4.Models
 {
     public class ProdutoModel
     {
+        private const int MaxCaracteresSemiDescricao = 280;
+
         [Key]
         [Required]
         public int Id { get; set; }
@@ -17,6 +21,8 @@ namespace Online_Auctions_LI4.Models
         public string Imagem { get; set; }
         [Required]
         public string Descricao { get; set; }
+        [Required]
+        public string semiDescricao { get; set; }
         [Required]
         public Double PrecoBase { get; set; }
         [Required]
@@ -33,6 +39,18 @@ namespace Online_Auctions_LI4.Models
         public int Utilizador_ID { get; set; }
         [Required]
         public int Categoria_ID{ get; set; }
+
+        public void AjustarSemiDescricao()
+        {
+            if (Descricao.Length > MaxCaracteresSemiDescricao)
+            {
+                semiDescricao = Descricao.Substring(0, MaxCaracteresSemiDescricao) + "...";
+            }
+            else
+            {
+                semiDescricao = Descricao;
+            }
+        }
     }
 
 }

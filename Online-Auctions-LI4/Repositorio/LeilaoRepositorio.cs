@@ -1,5 +1,6 @@
 ﻿using Online_Auctions_LI4.Data;
 using Online_Auctions_LI4.Models;
+using System.Data;
 
 namespace Online_Auctions_LI4.Repositorio
 {
@@ -27,17 +28,12 @@ namespace Online_Auctions_LI4.Repositorio
 
         public LeilaoModel buscaLeilaoModel(int id)
         {
-            // Obter o leilão com base no ID
-            var leilao = _bancoContext.Leilao.Find(id);
+            return _bancoContext.Leilao.FirstOrDefault(l => l.Id == id);
+        }
 
-            // Verificar se o leilão foi encontrado
-            if (leilao != null)
-            {
-                return leilao;
-            }
-
-            // Se não foi encontrado, retorne null ou trate conforme necessário
-            return null;
+        public LeilaoModel ObterLeilaoPorProdutoId(int produtoId)
+        {
+            return _bancoContext.Leilao.FirstOrDefault(l => l.Produto_ID == produtoId);
         }
 
         public LeilaoModel Adicionar(LeilaoModel leilao)
@@ -45,6 +41,22 @@ namespace Online_Auctions_LI4.Repositorio
             _bancoContext.Leilao.Add(leilao);
             _bancoContext.SaveChanges();
             return leilao;
+        }
+
+        public LeilaoModel Iniciar(int leilaoId, DateTime novaDataFinal)
+        {
+            LeilaoModel leilaoDB = buscaLeilaoModel(leilaoId);
+
+            if (leilaoDB == null)
+            {
+                throw new System.Exception("Houve um erro ao iniciar o leilão.");
+            }
+
+            leilaoDB.DataInicial = DateTime.Now;
+            leilaoDB.DataFinal = novaDataFinal; 
+            leilaoDB.Status = enums.LeilaoEnum.Iniciado;
+            _bancoContext.SaveChanges();
+            return leilaoDB;
         }
 
     }

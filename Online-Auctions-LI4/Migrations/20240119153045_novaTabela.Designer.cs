@@ -12,8 +12,8 @@ using Online_Auctions_LI4.Data;
 namespace Online_Auctions_LI4.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20240117230016_novasTabelas")]
-    partial class novasTabelas
+    [Migration("20240119153045_novaTabela")]
+    partial class novaTabela
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace Online_Auctions_LI4.Migrations
                     b.Property<DateTime>("DataFinal")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataIncial")
+                    b.Property<DateTime>("DataInicial")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("HistoricoDeLances_ID")
@@ -115,6 +115,10 @@ namespace Online_Auctions_LI4.Migrations
 
                     b.Property<int>("Utilizador_ID")
                         .HasColumnType("int");
+
+                    b.Property<string>("semiDescricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

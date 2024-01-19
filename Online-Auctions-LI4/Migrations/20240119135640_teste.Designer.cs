@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Online_Auctions_LI4.Data;
 
@@ -11,9 +12,11 @@ using Online_Auctions_LI4.Data;
 namespace Online_Auctions_LI4.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20240119135640_teste")]
+    partial class teste
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace Online_Auctions_LI4.Migrations
                     b.Property<DateTime>("DataFinal")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataInicial")
+                    b.Property<DateTime>("DataIncial")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("HistoricoDeLances_ID")
@@ -112,10 +115,6 @@ namespace Online_Auctions_LI4.Migrations
 
                     b.Property<int>("Utilizador_ID")
                         .HasColumnType("int");
-
-                    b.Property<string>("semiDescricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

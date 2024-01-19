@@ -1,4 +1,5 @@
-﻿@model List<ProdutoModel>
+﻿@model Dictionary<ProdutoModel, LeilaoModel>
+
 @{
     ViewData["Tittle"] = "Index";
 }
@@ -21,61 +22,156 @@
         }
 
         .produto-display{
-            border: 1px solid black;
+            border: 2px solid black;
             padding: 5px;
             border-radius: 10px;
+            display: flex;
+            margin-bottom: 20px;
         }
+
+        .produto-texto{
+            margin: 0 20px;
+        }
+
+        .produto-titulo{
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .produto-localizacao{
+            font-size: 13px;
+        }
+
+        .produto-descricao{
+            color: #62676B;
+            font-size: 15px;
+        }
+
+        .produto-info-preco{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 60%;
+        }
+
+        .teste{
+            display: flex;
+        }
+
 
 </style>
 
-<div class="top">
+<div class="top" style="margin-bottom: 20px;">
     <h1>Os Seus Produtos</h1>
     <a asp-controller="Produto" asp-action="CriarProduto">ADICIONAR PRODUTOS +</a>
-
 </div>
 
-@if (Model != null && Model.Any())
+@if (Model != null)
 {
-    @foreach (var produto in Model)
-    {
-        <div class="produto-display">
+        @foreach (var pair in Model)
+        {
+            var produto = pair.Key;
+            var leilao = pair.Value;
 
-            <div class="produto-image">
-                <p>@produto.Imagem</p>
+            <div class="produto-display">
+                <div class="produto-image">
+                    @if (!string.IsNullOrEmpty(produto.Imagem))
+                    {
+                        <img src="@Url.Content("~/" + produto.Imagem)" style="width: 150px;height: 120px;" alt="tazonde iamgem">
+                    }
+                    else
+                    {
+                        <p>Imagem não encontrada</p>
+                    }
+                </div>
+
+                <div class="teste">
+                    <div class="produto-texto">
+                        <div class="produto-titulo">
+                            @produto.Titulo
+                        </div>
+
+                        <div class="produto-localizacao">
+                            @produto.Localizacao
+                        </div>
+
+                    <div class="produto-descricao">
+                        @if (produto.semiDescricao != null && produto.semiDescricao.Length > 0)
+                        {
+                            @produto.semiDescricao
+                        }
+                        else
+                        {
+                            @produto.Descricao
+                        }
+                    </div>
+
+
+                    </div>
+
+                    <div class="produto-info-preco">
+
+                        @if(leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera)
+                        {
+                            <div class="produto-preco-base" style="font-size: 15px; font-weight: bold; margin-top: 5px;">
+                                Preço Base: @produto.PrecoBase€
+                            </div>
+
+                        <form asp-controller="Leilao" asp-action="Iniciar" method="post">
+                            <input type="hidden" name="leilaoId" value="@leilao.Id" />
+
+                                <label style="font-size:12px;" for="novaDataFinal">Data de Término do Leilão:</label>
+                                <input style="margin-bottom: 4px;" type="datetime-local" id="novaDataFinal" name="novaDataFinal" required min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
+
+                            <div class="produto-botao">
+                                <button class="btn btn-dark btn-block w-100" type="submit">Iniciar Leilão</button>
+                            </div>
+                        </form>
+
+                        }
+
+                        @if(leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
+                        {
+                            <div class="produto-preco-base" style="font-size: 15px; margin-bottom: 3px; font-weight: bold; margin-top: 5px;">
+                                Lance Atual: 200000€
+                            </div>
+
+                            <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
+                                Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
+                            </div>
+
+                            <div class="produto-botao">
+                                <button class="btn btn-dark btn-block w-100" type="submit">A DECORRER...</button>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
             </div>
-
-            <div class="produto-texto">
-
-                <div class="produto-titulo">
-                    @produto.Titulo
-                </div>
-                
-                <div class="produto-localizacao">
-                    @produto.Localizacao
-                </div>
-
-                <div class="produto-descricao">
-                    @produto.Descricao
-                </div>
-            </div>
-
-            <div class="produto-info-preco">
-
-                <div class="produto-preco-base">
-                    @produto.PrecoBase
-                </div>
-
-                <div class="produto-botao">
-                    <button class="btn btn-dark btn-block w-100" type="submit">Iniciar Leilão</button>
-                </div>
-            </div>
-
-
-            <p>Preço do Produto: @produto.PrecoBase</p>
-        </div>
-    }
+        }
 }
 else
 {
     <p style="color: gray; margin-top: 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.7px;">Não encontramos nenhum produto no seu perfil.</p>
+}
+
+@functions {
+    public string CalcularTempoRestante(DateTime dataFinal)
+    {
+        var agora = DateTime.Now;
+        var tempoRestante = dataFinal - agora;
+
+        if (tempoRestante > TimeSpan.Zero)
+        {
+            // Formatação do tempo restante
+            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+        }
+        else
+        {
+            return "Tempo Encerrado";
+        }
+    }
 }

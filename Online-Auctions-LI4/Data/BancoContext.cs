@@ -5,6 +5,7 @@ namespace Online_Auctions_LI4.Data
 {
     public class BancoContext : DbContext
     {
+
         public BancoContext(DbContextOptions<BancoContext> options) : base(options)
         {
 

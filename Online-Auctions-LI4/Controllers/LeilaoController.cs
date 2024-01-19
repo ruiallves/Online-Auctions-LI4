@@ -35,27 +35,37 @@ namespace Online_Auctions_LI4.Controllers
 
             if (leilaoModel != null)
             {
-                // Obter informações do produto associado
                 var produtoAssociado = _produtoRepositorio.getProductByID(leilaoModel.Produto_ID);
 
-                // Verificar se o produtoAssociado não é nulo antes de acessar suas propriedades
                 if (produtoAssociado != null && !string.IsNullOrEmpty(produtoAssociado.Imagem))
                 {
                     ViewBag.Imagem = Url.Content("~/" + produtoAssociado.Imagem);
                 }
                 else
                 {
-                    // Defina um valor padrão ou trate de outra forma quando o produtoAssociado ou a imagem são nulos
                     ViewBag.Imagem = Url.Content("~/caminho/imagem/default.jpg");
                 }
             }
             else
             {
-                // Defina um valor padrão ou trate de outra forma quando o leilaoModel é nulo
                 ViewBag.Imagem = Url.Content("~/caminho/imagem/default.jpg");
             }
 
             return View(leilaoModel);
+        }
+
+        [HttpPost]
+        public IActionResult Iniciar(int leilaoId, DateTime novaDataFinal)
+        {
+            try
+            {
+                _leilaoRepositorio.Iniciar(leilaoId, novaDataFinal);
+                return RedirectToAction("Index", "Produto");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Erro", "Home");
+            }
         }
 
 

@@ -12,8 +12,8 @@ using Online_Auctions_LI4.Data;
 namespace Online_Auctions_LI4.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20240111213308_novo")]
-    partial class novo
+    [Migration("20240119135812_testee")]
+    partial class testee
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,14 +42,18 @@ namespace Online_Auctions_LI4.Migrations
                     b.Property<int>("HistoricoDeLances_ID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Imagem")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Licitacao_ID")
                         .HasColumnType("int");
 
                     b.Property<int>("Produto_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantia")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantia")
+                        .HasColumnType("float");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -111,6 +115,10 @@ namespace Online_Auctions_LI4.Migrations
 
                     b.Property<int>("Utilizador_ID")
                         .HasColumnType("int");
+
+                    b.Property<string>("semiDescricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -28,5 +28,10 @@ namespace Online_Auctions_LI4.Repositorio
         {
             return _bancoContext.Produto.Find(id);
         }
+
+        public List<ProdutoModel> ListarProdutosPorUsuario(int usuarioId)
+        {
+            return _bancoContext.Produto.Where(p => p.Utilizador_ID == usuarioId).ToList();
+        }
     }
 }

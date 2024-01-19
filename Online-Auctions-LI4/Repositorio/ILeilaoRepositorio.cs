@@ -8,5 +8,7 @@ namespace Online_Auctions_LI4.Repositorio
         public LeilaoModel Adicionar(LeilaoModel leilao);
 
         public LeilaoModel buscaLeilaoModel(int id);
+        public LeilaoModel ObterLeilaoPorProdutoId(int produtoId);
+        public LeilaoModel Iniciar(int leilaoId, DateTime novaDataFinal);
     }
 }

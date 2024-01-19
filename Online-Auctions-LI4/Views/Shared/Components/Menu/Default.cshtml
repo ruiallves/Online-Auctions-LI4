@@ -128,6 +128,26 @@
         margin-top: 50px; /* Ajuste conforme a altura da barra de navegação */
     }
 
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 10px #D3D3D3;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #D3D3D3;
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C0C0C0;
+        }
+
 </style>
 
 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>

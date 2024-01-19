@@ -9,7 +9,7 @@ namespace Online_Auctions_LI4.Models
         [Key]
         [Required]
         public int Id { get; set; }
-        public DateTime DataIncial { get; set; }
+        public DateTime DataInicial { get; set; }
         public DateTime DataFinal { get; set; }
         [Required]
         public Double Quantia { get; set; }

@@ -1,10 +1,9 @@
 ﻿namespace Online_Auctions_LI4.enums
 {
-    public enum LeilaoEnum
+    public enum UserEnum
     {
-        Espera = 1,
-        Iniciado = 2,
-        Terminado = 3,
-        Cancelado = 4
+        Licitador = 1,
+        Leiloeiro = 2,
+        Admin = 3
     }
 }

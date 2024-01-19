@@ -22,10 +22,21 @@ namespace Online_Auctions_LI4.Controllers
             _sessao = sessao;
             _leilaoRepositorio = leilaoRepositorio;
         }
+        [PaginaParaUserLogado]
         public IActionResult Index()
         {
-            List<ProdutoModel> produtos = _produtoRepositorio.listaProdutos();
-            return View(produtos);
+            int userId = idSessao();
+            List<ProdutoModel> produtosDoUsuario = _produtoRepositorio.ListarProdutosPorUsuario(userId);
+
+            Dictionary<ProdutoModel, LeilaoModel> produtosComLeiloes = new Dictionary<ProdutoModel, LeilaoModel>();
+
+            foreach (var produto in produtosDoUsuario)
+            {
+                LeilaoModel leilaoDoProduto = _leilaoRepositorio.ObterLeilaoPorProdutoId(produto.Id);
+                produtosComLeiloes.Add(produto, leilaoDoProduto);
+            }
+
+            return View(produtosComLeiloes);
         }
 
         public IActionResult CriarProduto()
@@ -42,18 +53,22 @@ namespace Online_Auctions_LI4.Controllers
 
         public IActionResult Adicionar(ProdutoModel model)
         {
-            model.Utilizador_ID = idSessão();
+            model.Utilizador_ID = idSessao();
+            model.AjustarSemiDescricao();
             _produtoRepositorio.Adicionar(model);
+
             LeilaoModel leilaoModel = new LeilaoModel();
             leilaoModel.Produto_ID = model.Id;
             leilaoModel.Quantia = model.PrecoBase;
             leilaoModel.Status = enums.LeilaoEnum.Espera;
             leilaoModel.Imagem = model.Imagem;
             _leilaoRepositorio.Adicionar(leilaoModel);
+
             return RedirectToAction("Index", "Produto");
         }
 
-        public int idSessão()
+
+        public int idSessao()
         {
             UserModel user = _sessao.BuscarSessaoDoUser();
             return user.Id;
