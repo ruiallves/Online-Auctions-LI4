@@ -1,6 +1,6 @@
 ﻿using Online_Auctions_LI4.Models;
 
-namespace Online_Auctions_LI4.Repositorio
+namespace Online_Auctions_LI4.Repositorio.Leilao
 {
     public interface ILeilaoRepositorio
     {

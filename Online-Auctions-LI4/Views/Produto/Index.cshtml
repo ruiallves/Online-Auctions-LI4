@@ -60,6 +60,16 @@
             display: flex;
         }
 
+        .link-leilao {
+            transition: color 0.3s ease; 
+        }
+
+
+        .link-leilao:hover {
+            text-decoration: underline;
+            color: #281A1A;
+        }
+
 
 </style>
 
@@ -90,7 +100,7 @@
                 <div class="teste">
                     <div class="produto-texto">
                         <div class="produto-titulo">
-                            @produto.Titulo
+                        <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
                         </div>
 
                         <div class="produto-localizacao">
@@ -143,7 +153,7 @@
                             </div>
 
                             <div class="produto-botao">
-                                <button class="btn btn-dark btn-block w-100" type="submit">A DECORRER...</button>
+                                <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-100" type="submit">A DECORRER...</a>
                             </div>
                         }
 

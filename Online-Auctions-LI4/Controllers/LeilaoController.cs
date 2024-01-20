@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Online_Auctions_LI4.Filters;
 using Online_Auctions_LI4.Models;
-using Online_Auctions_LI4.Repositorio;
+using Online_Auctions_LI4.Repositorio.Leilao;
+using Online_Auctions_LI4.Repositorio.Licitacao;
+using Online_Auctions_LI4.Repositorio.Produto;
 
 namespace Online_Auctions_LI4.Controllers
 {
@@ -10,11 +12,13 @@ namespace Online_Auctions_LI4.Controllers
     {
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly ILeilaoRepositorio _leilaoRepositorio;
+        private readonly ILicitacaoRepositorio _licitacaoRepositorio;
 
-        public LeilaoController(IProdutoRepositorio produtoRepositorio, ILeilaoRepositorio leilaoRepositorio)
+        public LeilaoController(IProdutoRepositorio produtoRepositorio, ILeilaoRepositorio leilaoRepositorio, ILicitacaoRepositorio licitacaoRepositorio)
         {
             _produtoRepositorio = produtoRepositorio;
             _leilaoRepositorio = leilaoRepositorio;
+            _licitacaoRepositorio = licitacaoRepositorio;
         }
 
         public IActionResult Index()
@@ -28,31 +32,45 @@ namespace Online_Auctions_LI4.Controllers
             return RedirectToAction("Index", "Produto");
         }
 
+        public IActionResult Licitar(LicitacaoModel model, int leilaoId)
+        {
+            _licitacaoRepositorio.Licitar(model);
+            return RedirectToAction("getLeilao", new { id = leilaoId });
+        }
+
         public IActionResult getLeilao(int id)
         {
-
             LeilaoModel leilaoModel = _leilaoRepositorio.buscaLeilaoModel(id);
 
-            if (leilaoModel != null)
+            if (leilaoModel == null)
             {
-                var produtoAssociado = _produtoRepositorio.getProductByID(leilaoModel.Produto_ID);
+                return RedirectToAction("Index", "Produto");
+            }
 
-                if (produtoAssociado != null && !string.IsNullOrEmpty(produtoAssociado.Imagem))
-                {
-                    ViewBag.Imagem = Url.Content("~/" + produtoAssociado.Imagem);
-                }
-                else
-                {
-                    ViewBag.Imagem = Url.Content("~/caminho/imagem/default.jpg");
-                }
+            ProdutoModel produtoAssociado = _produtoRepositorio.getProductByID(leilaoModel.Produto_ID);
+            UserModel userAssociado = _produtoRepositorio.getUserByProductID(produtoAssociado.Utilizador_ID);
+
+            if (produtoAssociado != null && !string.IsNullOrEmpty(produtoAssociado.Imagem))
+            {
+                ViewBag.Imagem = Url.Content("~/" + produtoAssociado.Imagem);
             }
             else
             {
                 ViewBag.Imagem = Url.Content("~/caminho/imagem/default.jpg");
             }
 
-            return View(leilaoModel);
+            Dictionary<ProdutoModel, UserModel> produtoUserDict =
+                new Dictionary<ProdutoModel, UserModel> { { produtoAssociado, userAssociado } };
+
+            Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>> leilaoComProduto =
+                new Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>
+                {
+            { leilaoModel, produtoUserDict }
+                };
+
+            return View(leilaoComProduto);
         }
+
 
         [HttpPost]
         public IActionResult Iniciar(int leilaoId, DateTime novaDataFinal)
@@ -67,6 +85,7 @@ namespace Online_Auctions_LI4.Controllers
                 return RedirectToAction("Erro", "Home");
             }
         }
+
 
 
     }

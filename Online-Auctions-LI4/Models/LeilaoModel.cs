@@ -15,8 +15,6 @@ namespace Online_Auctions_LI4.Models
         public Double Quantia { get; set; }
         [Required]
         public int Produto_ID { get; set; }
-        public int Licitacao_ID { get; set; }
-        public int HistoricoDeLances_ID { get; set; }
         [Required]
         public LeilaoEnum Status { get; set; }
         public string Imagem { get; set; }

@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Online_Auctions_LI4.Data;
 using Online_Auctions_LI4.Helper;
-using Online_Auctions_LI4.Repositorio;
+using Online_Auctions_LI4.Repositorio.Leilao;
+using Online_Auctions_LI4.Repositorio.Licitacao;
+using Online_Auctions_LI4.Repositorio.Produto;
+using Online_Auctions_LI4.Repositorio.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,7 @@ builder.Services.AddScoped<IUserRepositorio, UserRepositorio>();
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
 builder.Services.AddScoped<ILeilaoRepositorio, LeilaoRepositorio>();
+builder.Services.AddScoped<ILicitacaoRepositorio, LicitacaoRepositorio>();
 
 builder.Services.AddSession(o =>
 {

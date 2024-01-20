@@ -1,4 +1,4 @@
-﻿@model LeilaoModel
+﻿@model Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>
 @{
     Layout = "_Layout";
 }
@@ -150,7 +150,6 @@
     }
  
     .cart-btn {
-      display: inline-block;
       background-color: #9fa5ab;
       border-radius: 6px;
       font-size: 16px;
@@ -164,7 +163,7 @@
       background-color: black;
     }
     textarea {
-      width: 100%;
+      width: 60%;
       height: 40px;
       padding: 7px 20px;
       box-sizing: border-box;
@@ -173,6 +172,7 @@
       background-color: #f8f8f8;
       font-size: 16px;
       resize: none;
+      overflow:hidden;
     }
 
     ::-webkit-scrollbar {
@@ -194,7 +194,7 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #C0C0C0;
         }
-}
+}   
 
 
 </style>
@@ -203,9 +203,9 @@
 
     <!-- Left Column / Headphones Image -->
     <div class="left-column">
-        @if (!string.IsNullOrEmpty(Model.Imagem))
+        @if (!string.IsNullOrEmpty(Model.First().Key.Imagem))
         {
-            <img src="@Url.Content("~/" + Model.Imagem)" style="width: 86%;" alt="tazonde iamgem">
+            <img src="@Url.Content("~/" + Model.First().Key.Imagem)" style="width: 86%;" alt="tazonde iamgem">
         }
         else
         {
@@ -227,12 +227,11 @@
 
       <!-- Product Description -->
       <div class="product-description">
-        <h1>Apartamento T1</h1>
-        <h4>Rua Monte da Costa, Campanhã, 4350-414 Porto, Portugal </h4>
-        <p class="text">Apartamento T1 com casa de banho, cozinha completa e varanda. O edifício oferece comodidades como sala de
-          reuniões, lavandaria, garagem, espaço com piscina exterior e ginásio. Localizado próximo ao Estádio do Dragão
-          e ao Centro Comercial Alameda, com fácil acesso a atrações turísticas via metro na estação Estádio do Dragão.
-        </p>
+            <h2 style="font-weight: bold">@Model.First().Value.First().Key.Titulo</h2>
+            <h5>@Model.First().Value.First().Key.Localizacao</h5>
+            <p class="text">
+                @Model.First().Value.First().Key.Descricao
+            </p>
       </div>
 
       <!-- Product Configuration -->
@@ -244,15 +243,21 @@
           </tr>
           <tr>
             <td>Lance Atual</td>
-            <td>295.000,00 €</td>
-          </tr>
+                    @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
+                    {
+                        <th style="font-weight: normal;">---------</th>
+                    }
+                    else{
+                        <th>@Model.First().Key.Quantia</th>
+                    }
+                </tr>
           <tr>
             <td>Lance Mínimo</td>
-            <td>Lance de Abertura 250.000,00 €</td>
+                    <td>@Model.First().Value.First().Key.PrecoBase €</td>
           </tr>
           <tr>
             <td>Termina em</td>
-            <td>8d 2h 21m 56s</td>
+            <td>@CalcularTempoRestante(@Model.First().Key.DataFinal)</td>
           </tr>
         </table>
       </div>
@@ -261,21 +266,64 @@
       <div class="cable-config">
         <span>Licitação rápida</span>
 
-        <div class="cable-choose">
-          <button>300.000,00$</button>
-          <button>305.000,00$</button>
-          <button>315.000,00$</button>
-        </div>
+            @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
+            {
+                <div class="cable-choose">
+                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 1.25) €</button>
+                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 1.5) €</button>
+                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 2) €</button>
+                </div>
+            }
+            else
+            {
+                <div class="cable-choose">
+                    <button>300.000,00$</button>
+                    <button>305.000,00$</button>
+                    <button>315.000,00$</button>
+                </div>
+            }
+        
 
 
         <div class="licitaçao">
           <span>Licitação direta</span>
           <div class="product-price">
-            <textarea class="textarea" required placeholder="Valor $"></textarea>
-            <a  class="cart-btn">Licitação</a>
+            <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
+                        <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                        <input type="hidden" name="Horario" value="@DateTime.Now" />
+                <textarea class="textarea" name="Valor" required placeholder="Valor €"></textarea>
+                <button type="submit" class="cart-btn">Licitação</button>
+            </form>
           </div>
         </div>
 
       </div>
 
   </main>
+
+
+@functions {
+    public string CalcularTempoRestante(DateTime dataFinal)
+    {
+        var agora = DateTime.Now;
+        var tempoRestante = dataFinal - agora;
+
+        if (tempoRestante > TimeSpan.Zero)
+        {
+            // Formatação do tempo restante
+            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+        }
+        else
+        {
+            return "Tempo Encerrado";
+        }
+    }
+
+    public int calculaPrimeiraPercentagem(double valor, double percentagem)
+    {
+        double resultadoDouble = valor * percentagem;
+        int resultadoInt = (int)resultadoDouble;
+        return resultadoInt;
+    }
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Online_Auctions_LI4.Data;
 
@@ -11,9 +12,11 @@ using Online_Auctions_LI4.Data;
 namespace Online_Auctions_LI4.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20240120123151_newsTables")]
+    partial class newsTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,31 +55,6 @@ namespace Online_Auctions_LI4.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Leilao");
-                });
-
-            modelBuilder.Entity("Online_Auctions_LI4.Models.LicitacaoModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Horario")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Leilao_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Utilizador_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Valor")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Licitacao");
                 });
 
             modelBuilder.Entity("Online_Auctions_LI4.Models.ProdutoModel", b =>

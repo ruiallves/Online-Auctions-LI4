@@ -2,7 +2,7 @@
 using Online_Auctions_LI4.Filters;
 using Online_Auctions_LI4.Helper;
 using Online_Auctions_LI4.Models;
-using Online_Auctions_LI4.Repositorio;
+using Online_Auctions_LI4.Repositorio.User;
 
 
 namespace Online_Auctions_LI4.Controllers

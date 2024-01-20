@@ -1,7 +1,7 @@
 ﻿using Online_Auctions_LI4.Data;
 using Online_Auctions_LI4.Models;
 
-namespace Online_Auctions_LI4.Repositorio
+namespace Online_Auctions_LI4.Repositorio.User
 {
     public class UserRepositorio : IUserRepositorio
     {
@@ -9,7 +9,7 @@ namespace Online_Auctions_LI4.Repositorio
 
         public UserRepositorio(BancoContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public UserModel ProcuraPorLogin(string login)

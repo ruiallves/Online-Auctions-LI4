@@ -2,7 +2,7 @@
 using Online_Auctions_LI4.Data;
 using Online_Auctions_LI4.Models;
 
-namespace Online_Auctions_LI4.Repositorio
+namespace Online_Auctions_LI4.Repositorio.Produto
 {
     public class ProdutoRepositorio : IProdutoRepositorio
     {
@@ -32,6 +32,11 @@ namespace Online_Auctions_LI4.Repositorio
         public List<ProdutoModel> ListarProdutosPorUsuario(int usuarioId)
         {
             return _bancoContext.Produto.Where(p => p.Utilizador_ID == usuarioId).ToList();
+        }
+
+        public UserModel getUserByProductID(int id)
+        {
+            return _bancoContext.Users.Find(id);
         }
     }
 }
