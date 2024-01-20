@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Online_Auctions_LI4.Data;
 using Online_Auctions_LI4.Filters;
 using Online_Auctions_LI4.Models;
 using Online_Auctions_LI4.Repositorio.Leilao;
@@ -34,8 +35,46 @@ namespace Online_Auctions_LI4.Controllers
 
         public IActionResult Licitar(LicitacaoModel model, int leilaoId)
         {
-            _licitacaoRepositorio.Licitar(model);
-            return RedirectToAction("getLeilao", new { id = leilaoId });
+            if (NovaLicitacaoMaior(model, leilaoId))
+            {
+                _licitacaoRepositorio.Licitar(model);
+                TempData["SucessoLicitacao"] = "Licitação realizada com sucesso!";
+
+                LeilaoModel leilaoAtual = _leilaoRepositorio.buscaLeilaoModel(leilaoId);
+                leilaoAtual.Quantia = model.Valor;
+                _leilaoRepositorio.SaveChanges();
+
+                return RedirectToAction("getLeilao", new { id = leilaoId });
+            }
+            else
+            {
+                TempData["ErroLicitacao"] = "A nova licitação não é maior do que a última. Por favor, faça uma licitação maior.";
+
+                return RedirectToAction("getLeilao", new { id = leilaoId });
+            }
+        }
+
+        public Boolean NovaLicitacaoMaior(LicitacaoModel model, int leilaoId)
+        {
+            LeilaoModel leilao = _leilaoRepositorio.buscaLeilaoModel(leilaoId);
+            LicitacaoModel ultimaLicitação = _licitacaoRepositorio.BuscarUltimaLicitacaoPorLeilao(leilaoId);
+
+            if(ultimaLicitação == null)
+            {
+                if(model.Valor > leilao.Quantia)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if(model.Valor > ultimaLicitação.Valor)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public IActionResult getLeilao(int id)

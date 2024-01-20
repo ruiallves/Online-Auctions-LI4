@@ -11,6 +11,7 @@ using System.Diagnostics;
 namespace Online_Auctions_LI4.Controllers
 {
     [PaginaParaUserLogado]
+    [PaginaParaLeiloeiro]
     public class ProdutoController : Controller
     {
         private readonly IProdutoRepositorio _produtoRepositorio;

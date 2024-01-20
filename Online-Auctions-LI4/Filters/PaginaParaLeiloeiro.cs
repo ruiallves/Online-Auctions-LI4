@@ -26,7 +26,7 @@ namespace Online_Auctions_LI4.Filters
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "login" }, { "action", "Index" } });
                 }
 
-                if(user.UserEnum != enums.UserEnum.Leiloeiro)
+                if(user.UserEnum != enums.UserEnum.Leiloeiro && user.UserEnum != enums.UserEnum.Admin)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Restrito" }, { "action", "Index" } });
                 }

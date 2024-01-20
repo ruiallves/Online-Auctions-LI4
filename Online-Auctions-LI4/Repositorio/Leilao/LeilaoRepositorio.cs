@@ -59,5 +59,15 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
             return leilaoDB;
         }
 
+        public void SaveChanges()
+        {
+            _bancoContext.SaveChanges();
+        }
+
+        public List<LeilaoModel> GetAll()
+        {
+            return _bancoContext.Leilao.ToList();
+        }
+
     }
 }

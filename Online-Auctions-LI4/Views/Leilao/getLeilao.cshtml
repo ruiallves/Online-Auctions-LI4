@@ -89,6 +89,8 @@
     /* Cable Configuration */
     .cable-choose {
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
     }
  
     .cable-choose button {
@@ -155,7 +157,7 @@
       font-size: 16px;
       color: #FFFFFF;
       text-decoration: none;
-      padding: 12px 30px;
+      padding: 10px 30px;
       margin-left: 20px;
       transition: all .5s;
     }
@@ -248,7 +250,7 @@
                         <th style="font-weight: normal;">---------</th>
                     }
                     else{
-                        <th>@Model.First().Key.Quantia</th>
+                        <th>@Model.First().Key.Quantia €</th>
                     }
                 </tr>
           <tr>
@@ -265,35 +267,55 @@
       <!-- Cable Configuration -->
       <div class="cable-config">
         <span>Licitação rápida</span>
-
-            @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
-            {
                 <div class="cable-choose">
-                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 1.25) €</button>
-                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 1.5) €</button>
-                    <button>@calculaPrimeiraPercentagem(@Model.First().Value.First().Key.PrecoBase, 2) €</button>
-                </div>
-            }
-            else
-            {
-                <div class="cable-choose">
-                    <button>300.000,00$</button>
-                    <button>305.000,00$</button>
-                    <button>315.000,00$</button>
-                </div>
-            }
-        
-
+                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                        <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
+                        <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                        <input type="hidden" name="Horario" value="@DateTime.Now" />
+                        <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.25)"></input>
+                        <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.25) €</button>
+                </form>
+                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                    <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
+                    <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                    <input type="hidden" name="Horario" value="@DateTime.Now" />
+                    <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5)"></input>
+                    <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5) €</button>
+                </form>
+                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                    <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
+                    <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                    <input type="hidden" name="Horario" value="@DateTime.Now" />
+                    <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2)"></input>
+                    <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2) €</button>
+                </form>
+                </div>       
 
         <div class="licitaçao">
+                @if (TempData["SucessoLicitacao"] != null)
+                {
+                    <div class="alert alert-success alert-sm" style="font-size:13px;">
+                        @TempData["SucessoLicitacao"]
+                    </div>
+                }
+
+                @if (TempData["ErroLicitacao"] != null)
+                {
+                    <div class="alert alert-danger alert-sm" style="font-size:13px;">
+                        @TempData["ErroLicitacao"]
+                    </div>
+                }
+
           <span>Licitação direta</span>
           <div class="product-price">
             <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
                 <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
-                        <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
-                        <input type="hidden" name="Horario" value="@DateTime.Now" />
-                <textarea class="textarea" name="Valor" required placeholder="Valor €"></textarea>
-                <button type="submit" class="cart-btn">Licitação</button>
+                <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                <input type="hidden" name="Horario" value="@DateTime.Now" />
+                <div class="d-flex" style="align-items: center; margin-bottom: 10px;">
+                            <textarea class="textarea" name="Valor" required placeholder="Valor €"></textarea>
+                            <button type="submit" class="cart-btn">Licitação</button>
+                </div>
             </form>
           </div>
         </div>

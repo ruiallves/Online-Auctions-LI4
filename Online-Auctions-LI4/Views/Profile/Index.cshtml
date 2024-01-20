@@ -1,4 +1,4 @@
-﻿@model UserModel
+﻿@model Dictionary<UserModel, Dictionary<LeilaoModel, ProdutoModel>>
 @{
     Layout = "_Layout";
     ViewData["Tittle"] = "Perfil";
@@ -52,7 +52,7 @@
             border-bottom-right-radius: 25px;
             height: 86%;
             overflow-x: hidden;
-            width: 300px;
+            width: 650px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -136,6 +136,7 @@
                 height: auto;
                 margin-bottom: 30px;
                 padding: 50px 0 50px 50px;
+                width: 100%;
             }
 
                 .main .card table {
@@ -155,6 +156,71 @@
             display: flex;
         }
 
+        .top {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+            .top a {
+                background-color: black;
+                color: white;
+                padding: 8px 8px;
+                border-radius: 10px;
+            }
+
+        .produto-display {
+            border: 2px solid black;
+            padding: 5px;
+            border-radius: 10px;
+            display: flex;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .produto-texto {
+            margin: 0 20px;
+        }
+
+        .produto-titulo {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .produto-localizacao {
+            font-size: 13px;
+        }
+
+        .produto-descricao {
+            color: #808080;
+            font-size: 15px;
+        }
+
+        .produto-info-preco {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 70%;
+        }
+
+        .teste {
+            display: flex;
+        }
+
+        .link-leilao {
+            transition: color 0.3s ease;
+        }
+
+
+            .link-leilao:hover {
+                text-decoration: underline;
+                color: #281A1A;
+            }
+
     </style>
 </head>
 
@@ -168,13 +234,13 @@
                 <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="180" height="180">
 
                 <div class="name">
-                    @Model.Name
+                    @Model.First().Key.Name
                 </div>
                 <div class="job">
-                    @Model.Username
+                    @Model.First().Key.Username
                 </div>
                 <div class="loc">
-                    @Model.morada
+                    @Model.First().Key.morada
                 </div>
             </div>
 
@@ -202,5 +268,100 @@
             <div class="filter">
             </div>
             <h2 style="margin-bottom: 50px;">Histórico De Leilões</h2>
+            @if (Model != null)
+            {
+                @foreach (var pair in Model)
+                {
+                    var produto = pair.Value.First().Value;
+                    var leilao = pair.Value.First().Key;
+
+                    <div class="produto-display">
+                        <div class="produto-image">
+                            @if (!string.IsNullOrEmpty(produto.Imagem))
+                            {
+                                <img src="@Url.Content("~/" + produto.Imagem)" style="width: 150px;height: 120px;" alt="tazonde iamgem">
+                            }
+                            else
+                            {
+                                <p>Imagem não encontrada</p>
+                            }
+                        </div>
+
+                        <div class="teste">
+                            <div class="produto-texto">
+                                <div class="produto-titulo">
+                                    <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
+                                </div>
+
+                                <div class="produto-localizacao">
+                                    @produto.Localizacao
+                                </div>
+
+                                <div class="produto-descricao">
+                                    @if (produto.semiDescricao != null && produto.semiDescricao.Length > 0)
+                                    {
+                                        @produto.semiDescricao
+                                    }
+                                    else
+                                    {
+                                        @produto.Descricao
+                                    }
+                                </div>
+
+
+                            </div>
+
+                            <div class="produto-info-preco">
+
+                                @if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
+                                {
+                                    <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
+                                        @if (@leilao.Quantia == @produto.PrecoBase)
+                                        {
+                                            <p>--------</p>
+                                        }
+                                        else
+                                        {
+                                            <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                                        }
+                                    </div>
+
+                                    <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
+                                        Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
+                                    </div>
+
+                                    <div class="produto-botao">
+                                        <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-100" style="font-size: 14px;" type="submit">A DECORRER...</a>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color: gray; margin-top: 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.7px;">Não encontramos nenhum produto no seu perfil.</p>
+            }
         </div>
 </body>
+
+@functions {
+    public string CalcularTempoRestante(DateTime dataFinal)
+    {
+        var agora = DateTime.Now;
+        var tempoRestante = dataFinal - agora;
+
+        if (tempoRestante > TimeSpan.Zero)
+        {
+            // Formatação do tempo restante
+            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+        }
+        else
+        {
+            return "Tempo Encerrado";
+        }
+    }
+}

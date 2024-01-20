@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Dictionary<LeilaoModel, ProdutoModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -31,6 +32,11 @@
         text-align: center;
     }
 
+    .titulo:hover{
+        text-decoration: underline;
+        color: black;
+    }
+
     .product-tumb {
         display: flex;
         align-items: center;
@@ -52,18 +58,15 @@
 
     .product-catagory {
         display: flex;
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 700;
         margin-bottom: 10px;
         text-align: center;
         box-sizing: border-box;
+        justify-content: space-around;
     }
 
-        .product-catagory span {
-            margin-right: 33%;
-        }
-
-    .product-details h4 a {
+    .product-details-a {
         display: block;
         color: #363636;
         text-decoration: none;
@@ -80,147 +83,65 @@
         font-weight: bold;
     }
 
-    .solid-dark-button {
-        background-color: #333;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        font-size: 12px;
-        cursor: pointer;
-        text-transform: uppercase;
-        font-weight: bold;
-        width: 100%;
+    .solid-dark-button:hover {
+        background-color: #black;
+        color:honeydew;
     }
 
-        .solid-dark-button:hover {
-            background-color: #444;
-        }
 </style>
 
 <h2 style="text-align: center; font-weight: bold">Leilões Ativos</h2>
 
 <div class="row-product">
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
+    @foreach (var pair in Model)
+    {
+        <div class="product-card">
+            <div class="titulo">
+                <h5><a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" style="color: black;">@pair.Value.Titulo</a></h5>
             </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
+            <div class="product-tumb">
+                <img src="@Url.Content("~/" + pair.Value.Imagem)" style="width: 228px;height: 120px;" alt="tazonde iamgem">
             </div>
-        </div>
-    </div>
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
-            </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
+            <div class="product-details">
+                <div class="product-catagory">
+                    <span style="text-transform: uppercase">@pair.Value.Tipologia</span>
+                    <span>@pair.Value.AreaUtil m²</span>
+                    <span>@pair.Value.Localizacao</span>
+                </div>
+                <h4>
+                    @if(pair.Value.PrecoBase == pair.Key.Quantia)
+                    {
+                        <a class="product-details-a">Preço Atual: -------- </a>
+                    }
+                    else
+                    {
+                        <a class="product-details-a" style="color: black">Preço Atual: @pair.Key.Quantia €</a>
+                    }
+                </h4>
+                <p>Termina em @CalcularTempoRestante(pair.Key.DataFinal)</p>
+                <div>
+                    <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" class="solid-dark-button btn btn-dark btn-block w-100">Licite agora</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
-            </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
-            </div>
-        </div>
-    </div>
+
+    }
 </div>
-<div class="row-product">
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
-            </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
-            </div>
-        </div>
-    </div>
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
-            </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
-            </div>
-        </div>
-    </div>
-    <div class="product-card">
-        <div class="titulo">
-            <h5>Apartamento</h5>
-        </div>
-        <div class="product-tumb">
-            <img src="~/decoracao-apartamento-pequeno-8.jpg" alt="">
-        </div>
-        <div class="product-details">
-            <div class="product-catagory">
-                <span>T3</span>
-                <span>1500m²</span>
-                <span>Braga</span>
-            </div>
-            <h4><a>Preço Atual: 500 000,00 €</a></h4>
-            <p>Termina em 3d 23h 50m 03s</p>
-            <div>
-                <button class="solid-dark-button">Licite agora</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+@functions {
+    public string CalcularTempoRestante(DateTime dataFinal)
+    {
+        var agora = DateTime.Now;
+        var tempoRestante = dataFinal - agora;
+
+        if (tempoRestante > TimeSpan.Zero)
+        {
+            // Formatação do tempo restante
+            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+        }
+        else
+        {
+            return "Tempo Encerrado";
+        }
+    }
+}

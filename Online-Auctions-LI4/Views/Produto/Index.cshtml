@@ -144,10 +144,17 @@
 
                         @if(leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
                         {
-                            <div class="produto-preco-base" style="font-size: 15px; margin-bottom: 3px; font-weight: bold; margin-top: 5px;">
-                                Lance Atual: 200000€
+                            <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
+                            @if (@leilao.Quantia == @produto.PrecoBase)
+                            {
+                                <p>--------</p>
+                            }
+                            else
+                            {
+                                <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                            }
                             </div>
-
+                            
                             <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
                                 Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
                             </div>

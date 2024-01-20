@@ -8,7 +8,7 @@ namespace Online_Auctions_LI4.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index","Home");
         }
     }
 }

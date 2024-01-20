@@ -17,7 +17,16 @@ namespace Online_Auctions_LI4.Repositorio.Licitacao
         {
             _bancoContext.Licitacao.Add(model);
             _bancoContext.SaveChanges();
-            return model;
+            return model;   
+        }
+
+        public LicitacaoModel BuscarUltimaLicitacaoPorLeilao(int leilaoId)
+        {
+            var ultimaLicitacao = _bancoContext.Licitacao
+                .Where(l => l.Leilao_ID == leilaoId)
+                .OrderByDescending(l => l.Horario)
+                .FirstOrDefault();
+            return ultimaLicitacao;
         }
     }
 }
