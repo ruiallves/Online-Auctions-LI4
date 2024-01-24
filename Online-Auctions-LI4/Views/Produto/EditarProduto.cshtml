@@ -89,10 +89,11 @@
 
 </style>
     
-    <form asp-controller="Produto" asp-action="Adicionar" method="post" style="width: 30rem;">
+    <form asp-controller="Produto" asp-action="Editar" method="post" style="width: 30rem;">
+        <input class="hidden" asp-for="Id"/>
         <div class="container">
                 <div class="mb-3 pagToda">
-                    <h2 class="pb-2" style="letter-spacing: 1px; font-weight:bold; margin-top: 50px;">Adicionar Produto</h2>
+                    <h2 class="pb-2" style="letter-spacing: 1px; font-weight:bold; margin-top: 50px;">Editar Produto</h2>
 
                     <div class="form-row">
                         <div class="input-data">
@@ -185,7 +186,7 @@
                         <div class="form-row">
                             <div class="input-data">
                                 <label for="" style="font-weight:bold">Selecione a Imagem</label>
-                                <input asp-for="Imagem" type="file" accept="image/*" multiple required>
+                                <input asp-for="Imagem" type="file" accept="image/*" multiple>
                                 <div class="underline"></div>
                             </div>
                         </div>
@@ -199,10 +200,14 @@
                         </div>
                     </div>
 
-                    
-                    <div class="pt-1" style="margin-top:20px;">
-                        <button class="btn btn-dark btn-block w-100" style="border-radius: 10px;" type="submit">ADICIONAR PRODUTO +</button>
-                    </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="pt-1" style="margin-top:20px;">
+                    <button class="btn btn-dark btn-block w-100" style="border-radius: 10px;" type="submit">EDITAR PRODUTO</button>
+                </div>
+                <div class="pt-1" style="margin-top:20px;">
+                    <a asp-controller="Produto" asp-action="Apagar" asp-route-id="@Model.Id" class="btn btn-dark btn-block w-100" style="border-radius: 10px;" type="submit">REMOVER PRODUTO</a>
+                </div>
+            </div>
 
                 </div>
 

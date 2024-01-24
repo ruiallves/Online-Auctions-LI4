@@ -9,5 +9,7 @@ namespace Online_Auctions_LI4.Repositorio.Produto
         public ProdutoModel getProductByID(int id);
         public List<ProdutoModel> ListarProdutosPorUsuario(int usuarioId);
         public UserModel getUserByProductID(int id);
+        public ProdutoModel Editar(ProdutoModel produto);
+        public bool Apagar(int id);
     }
 }

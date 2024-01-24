@@ -23,5 +23,10 @@ namespace Online_Auctions_LI4.Repositorio.User
             _context.SaveChanges();
             return user;
         }
+
+        public UserModel ProcuraPorId(int userId)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == userId);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Dictionary<UserModel, Dictionary<LeilaoModel, ProdutoModel>>
+﻿@model Dictionary<UserModel, Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>
 @{
     Layout = "_Layout";
     ViewData["Tittle"] = "Perfil";
@@ -46,13 +46,30 @@
             }
 
         /* Sidenav */
+        .sidenav-semProdutos {
+            background-color: #efefef;
+            color: #333;
+            border-bottom-right-radius: 25px;
+            height: 86%;
+            overflow-x: hidden;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            margin-left: -200px;
+            margin-top: -16px;
+            margin-bottom: -90px;
+        }
+
         .sidenav {
             background-color: #efefef;
             color: #333;
             border-bottom-right-radius: 25px;
             height: 86%;
             overflow-x: hidden;
-            width: 650px;
+            width: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -120,6 +137,7 @@
 
         .main {
             padding-left: 150px;
+            width: 100%;
         }
 
             .main h2 {
@@ -177,11 +195,11 @@
             border-radius: 10px;
             display: flex;
             margin-bottom: 20px;
-            width: 100%;
         }
 
         .produto-texto {
             margin: 0 20px;
+            width: 500px;
         }
 
         .produto-titulo {
@@ -194,8 +212,9 @@
         }
 
         .produto-descricao {
-            color: #808080;
+            color: #62676B;
             font-size: 15px;
+            width: 85%;
         }
 
         .produto-info-preco {
@@ -204,7 +223,7 @@
             text-align: center;
             padding-left: 20px;
             padding-right: 20px;
-            width: 70%;
+            width: 40%;
         }
 
         .teste {
@@ -221,6 +240,13 @@
                 color: #281A1A;
             }
 
+        .data {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+        }
+
     </style>
 </head>
 
@@ -228,39 +254,77 @@
 <body>
     <section class="container-section">
 
-        <!-- Sidenav -->
-        <div class="sidenav">
-            <div class="profile" style="text-align: center;align-items: center;">
-                <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="180" height="180">
+        @foreach (var pair in Model)
+        {
+            if (pair.Value != null && pair.Value.Any() && pair.Value.First().Value != null && pair.Value.First().Value.Any())
+                    {
+                        <div class="sidenav">
+                            <div class="profile" style="text-align: center;align-items: center;">
+                                <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="150" height="150">
 
-                <div class="name">
-                    @Model.First().Key.Name
-                </div>
-                <div class="job">
-                    @Model.First().Key.Username
-                </div>
-                <div class="loc">
-                    @Model.First().Key.morada
-                </div>
-            </div>
+                                <div class="name">
+                                    @Model.First().Key.Name
+                                </div>
+                                <div class="job">
+                                    @Model.First().Key.Username
+                                </div>
+                                <div class="loc">
+                                    @Model.First().Key.morada
+                                </div>
+                            </div>
 
-            <div class="sidenav-url">
-                <div class="url" style="margin-top: 90px;">
-                    <hr align="center">
-                    <a href="#profile">Editar Perfil</a>
-                    <hr align="center">
+                            <div class="sidenav-url">
+                                <div class="url" style="margin-top: 90px;">
+                                    <hr align="center">
+                                    <a href="#profile">Editar Perfil</a>
+                                    <hr align="center">
+                                </div>
+                                <div class="url">
+                                    <a href="#settings">Produtos</a>
+                                    <hr align="center">
+                                </div>
+                                <div class="url">
+                                    <a href="#settings">Log Out</a>
+                                    <hr align="center">
+                                </div>
+                            </div>
                 </div>
-                <div class="url">
-                    <a href="#settings">Produtos</a>
-                    <hr align="center">
-                </div>
-                <div class="url">
-                    <a href="#settings">Log Out</a>
-                    <hr align="center">
-                </div>
-            </div>
-        </div>
+            }
+            else
+            {
+                <div class="sidenav-semProdutos">
+                    <div class="profile" style="text-align: center;align-items: center;">
+                        <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="180" height="180">
 
+                        <div class="name">
+                            @Model.First().Key.Name
+                        </div>
+                        <div class="job">
+                            @Model.First().Key.Username
+                        </div>
+                        <div class="loc">
+                            @Model.First().Key.morada
+                        </div>
+                    </div>
+
+                    <div class="sidenav-url">
+                        <div class="url" style="margin-top: 90px;">
+                            <hr align="center">
+                            <a href="#profile">Editar Perfil</a>
+                            <hr align="center">
+                        </div>
+                        <div class="url">
+                            <a href="#settings">Produtos</a>
+                            <hr align="center">
+                        </div>
+                        <div class="url">
+                            <a href="#settings">Log Out</a>
+                            <hr align="center">
+                        </div>
+                    </div>
+                </div>
+            }
+        }
 
         <!-- End -->
         <!-- Main -->
@@ -272,73 +336,103 @@
             {
                 @foreach (var pair in Model)
                 {
-                    var produto = pair.Value.First().Value;
-                    var leilao = pair.Value.First().Key;
+                    if (pair.Value.Any() && pair.Value.First().Value.Any())
+                    {
+                        var produto = pair.Value.First().Value.First().Key;
+                        var leilao = pair.Value.First().Key;
+                        var userVencedor = pair.Value.First().Value.First().Value;
 
-                    <div class="produto-display">
-                        <div class="produto-image">
-                            @if (!string.IsNullOrEmpty(produto.Imagem))
-                            {
-                                <img src="@Url.Content("~/" + produto.Imagem)" style="width: 150px;height: 120px;" alt="tazonde iamgem">
-                            }
-                            else
-                            {
-                                <p>Imagem não encontrada</p>
-                            }
-                        </div>
-
-                        <div class="teste">
-                            <div class="produto-texto">
-                                <div class="produto-titulo">
-                                    <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
-                                </div>
-
-                                <div class="produto-localizacao">
-                                    @produto.Localizacao
-                                </div>
-
-                                <div class="produto-descricao">
-                                    @if (produto.semiDescricao != null && produto.semiDescricao.Length > 0)
+                        if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
+                        {
+                            <div class="produto-display">
+                                <div class="produto-image">
+                                    @if (!string.IsNullOrEmpty(produto.Imagem))
                                     {
-                                        @produto.semiDescricao
+                                        <img src="@Url.Content("~/" + produto.Imagem)" style="width: 228px;height: 150px;margin: 3px 3px 0px" alt="tazonde iamgem">
                                     }
                                     else
                                     {
-                                        @produto.Descricao
+                                        <p>Imagem não encontrada</p>
                                     }
                                 </div>
 
+                                <div class="teste">
+                                    <div class="produto-texto">
+                                        <div class="produto-titulo">
+                                            <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
+                                        </div>
 
-                            </div>
+                                        <div class="produto-localizacao">
+                                            @produto.Localizacao
+                                        </div>
 
-                            <div class="produto-info-preco">
+                                        <div class="produto-descricao">
+                                            @AjustarSemiDescricao(produto.Descricao)
+                                        </div>
 
-                                @if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
-                                {
-                                    <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
-                                        @if (@leilao.Quantia == @produto.PrecoBase)
+
+                                    </div>
+
+
+
+                                    <div class="produto-info-preco">
+
+                                        @if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado && CalcularTempoRestante(leilao.DataFinal) != "Tempo Encerrado")
                                         {
-                                            <p>--------</p>
+                                            <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
+                                                @if (@leilao.Quantia == @produto.PrecoBase)
+                                                {
+                                                    <p>Lance Atual: ----</p>
+                                                }
+                                                else
+                                                {
+                                                    <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                                                }
+                                            </div>
+
+                                            <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
+                                                Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
+                                            </div>
+
+                                            <div class="produto-botao">
+                                                <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-75" style="margin-top: 20px; font-size: 11px;" type="submit">A DECORRER...</a>
+                                            </div>
                                         }
-                                        else
+                                        @if (CalcularTempoRestante(leilao.DataFinal) == "Tempo Encerrado")
                                         {
-                                            <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                                            <div class="produto-preco-base" style="font-size: 14px; margin-top: 5px;">
+                                                @if (@leilao.Quantia == @produto.PrecoBase)
+                                                {
+                                                    <p style="font-weight: bold;">Lance Vencedor: ----</p>
+                                                }
+                                                else
+                                                {
+                                                    <h6 style="font-weight: bold;">Lance Vencedor: @leilao.Quantia €</h6>
+                                                }
+                                            </div>
+
+                                            <div class="produto-preco-base" style="font-size: 12px;">
+                                                @if (@leilao.Quantia == @produto.PrecoBase)
+                                                {
+                                                    <p style="font-weight: bold;">Vencedor: Sem Licitadores</p>
+                                                }
+                                                else
+                                                {
+                                                    <p style="font-weight: bold;">Vencedor: @userVencedor.Username</p>
+                                                }
+                                            </div>
+
+                                            <div class="produto-botao">
+                                                <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-75" style="margin-bottom: 4px; font-size: 11px;" type="submit">TERMINADO</a>
+                                            </div>
                                         }
+
+
                                     </div>
-
-                                    <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
-                                        Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
-                                    </div>
-
-                                    <div class="produto-botao">
-                                        <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-100" style="font-size: 14px;" type="submit">A DECORRER...</a>
-                                    </div>
-                                }
-
-
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        }
+                    }
                 }
             }
             else
@@ -362,6 +456,18 @@
         else
         {
             return "Tempo Encerrado";
+        }
+    }
+
+    public String AjustarSemiDescricao(String descricao)
+    {
+        if (descricao.Length > 180)
+        {
+            return descricao.Substring(0, 180) + "...";
+        }
+        else
+        {
+            return descricao;
         }
     }
 }

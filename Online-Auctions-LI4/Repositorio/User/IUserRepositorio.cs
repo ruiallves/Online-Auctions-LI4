@@ -6,5 +6,6 @@ namespace Online_Auctions_LI4.Repositorio.User
     {
         UserModel ProcuraPorLogin(string login);
         UserModel Register(UserModel user);
+        UserModel ProcuraPorId(int userId);
     }
 }

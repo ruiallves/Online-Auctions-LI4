@@ -1,4 +1,6 @@
-﻿using Online_Auctions_LI4.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Online_Auctions_LI4.Data;
+using Online_Auctions_LI4.enums;
 using Online_Auctions_LI4.Models;
 using System.Data;
 
@@ -69,5 +71,34 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
             return _bancoContext.Leilao.ToList();
         }
 
+        public bool Apagar(int id)
+        {
+            LeilaoModel leilaoDB = buscaLeilaoModel(id);
+
+            if (leilaoDB == null)
+            {
+                throw new Exception("Houve um erro ao apagar o leilao.");
+                return false;
+            }
+
+            _bancoContext.Leilao.Remove(leilaoDB);
+            _bancoContext.SaveChanges();
+
+            return true;
+        }
+
+        public LeilaoModel Editar(LeilaoModel leilao, double novoPreco)
+        {
+            LeilaoModel leilaoDB = buscaLeilaoModel(leilao.Id);
+
+            if (leilaoDB == null)
+            {
+                throw new Exception("Houve um erro ao editar o leilao.");
+            }
+            
+            leilaoDB.Quantia = novoPreco;
+            _bancoContext.SaveChanges();
+            return leilaoDB;
+        }
     }
 }

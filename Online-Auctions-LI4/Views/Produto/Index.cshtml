@@ -31,6 +31,7 @@
 
         .produto-texto{
             margin: 0 20px;
+            width: 850px;
         }
 
         .produto-titulo{
@@ -47,13 +48,13 @@
             font-size: 15px;
         }
 
-        .produto-info-preco{
+        .produto-info-preco {
             display: flex;
             flex-direction: column;
             text-align: center;
-            padding-left: 20px;
+            padding-left: 5px;
             padding-right: 20px;
-            width: 60%;
+            width: 40%;
         }
 
         .teste{
@@ -70,6 +71,13 @@
             color: #281A1A;
         }
 
+    .data{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
 
 </style>
 
@@ -85,89 +93,100 @@
             var produto = pair.Key;
             var leilao = pair.Value;
 
-            <div class="produto-display">
-                <div class="produto-image">
-                    @if (!string.IsNullOrEmpty(produto.Imagem))
-                    {
-                        <img src="@Url.Content("~/" + produto.Imagem)" style="width: 150px;height: 120px;" alt="tazonde iamgem">
-                    }
-                    else
-                    {
-                        <p>Imagem não encontrada</p>
-                    }
-                </div>
+        if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera || leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
+        {
+            @if (CalcularTempoRestante(leilao.DataFinal) != "Tempo Encerrado" || leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera)
 
-                <div class="teste">
-                    <div class="produto-texto">
-                        <div class="produto-titulo">
-                        <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
-                        </div>
-
-                        <div class="produto-localizacao">
-                            @produto.Localizacao
-                        </div>
-
-                    <div class="produto-descricao">
-                        @if (produto.semiDescricao != null && produto.semiDescricao.Length > 0)
+            {
+                <div class="produto-display">
+                    <div class="produto-image">
+                        @if (!string.IsNullOrEmpty(produto.Imagem))
                         {
-                            @produto.semiDescricao
+                            <img src="@Url.Content("~/" + produto.Imagem)" style="width: 150px;height: 120px;" alt="tazonde iamgem">
                         }
                         else
                         {
-                            @produto.Descricao
+                            <p>Imagem não encontrada</p>
                         }
                     </div>
 
-
-                    </div>
-
-                    <div class="produto-info-preco">
-
-                        @if(leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera)
-                        {
-                            <div class="produto-preco-base" style="font-size: 15px; font-weight: bold; margin-top: 5px;">
-                                Preço Base: @produto.PrecoBase€
+                    <div class="teste">
+                        <div class="produto-texto">
+                            <div class="produto-titulo">
+                                <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="link-leilao">@produto.Titulo</a>
                             </div>
 
-                        <form asp-controller="Leilao" asp-action="Iniciar" method="post">
-                            <input type="hidden" name="leilaoId" value="@leilao.Id" />
-
-                                <label style="font-size:12px;" for="novaDataFinal">Data de Término do Leilão:</label>
-                                <input style="margin-bottom: 4px;" type="datetime-local" id="novaDataFinal" name="novaDataFinal" required min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
-
-                            <div class="produto-botao">
-                                <button class="btn btn-dark btn-block w-100" type="submit">Iniciar Leilão</button>
+                            <div class="produto-localizacao">
+                                @produto.Localizacao
                             </div>
-                        </form>
 
-                        }
+                            <div class="produto-descricao">
+                                @if (AjustarSemiDescricao(produto.Descricao) != null && produto.Descricao.Length > 0)
+                                {
+                                    @produto.Descricao
+                                }
+                            </div>
 
-                        @if(leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
-                        {
-                            <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
-                            @if (@leilao.Quantia == @produto.PrecoBase)
+
+                        </div>
+
+                        <div class="produto-info-preco">
+
+                            @if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera)
                             {
-                                <p>--------</p>
+                                <div class="produto-preco-base" style="font-size: 15px; font-weight: bold; margin-top: 5px;">
+                                    Preço Base: @produto.PrecoBase€
+                                </div>
+
+                                <form asp-controller="Leilao" asp-action="Iniciar" method="post">
+                                    <input type="hidden" name="leilaoId" value="@leilao.Id" />
+
+                                    <div class="data">
+                                        <label style="font-size:12px;" for="novaDataFinal">Data de Término do Leilão:</label>
+                                        <input style="margin-bottom: 4px; width: 100px;" type="datetime-local" id="novaDataFinal" name="novaDataFinal" required min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
+                                    </div>
+                                   
+                                    <div class="butoes" style="display:flex;align-items:center;justify-content:center;">
+                                        <div class="produto-botao">
+                                            <button class="btn btn-dark btn-block" style="margin-right: 5px;" type="submit">Iniciar Leilão</button>
+                                        </div>
+                                        <div class="produto-botao">
+                                            <a asp-controller="Produto" asp-action="EditarProduto" asp-route-id="@produto.Id" class="btn btn-dark btn-block" type="submit">Editar</a>
+                                        </div>
+                                    </div>
+                                </form>
+
                             }
-                            else
+
+                            @if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
                             {
-                                <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                                <div class="produto-preco-base" style="font-size: 15px;margin-bottom:8px; margin-top: 5px;">
+                                    @if (@leilao.Quantia == @produto.PrecoBase)
+                                    {
+                                        <p>Lance Atual: --------</p>
+                                    }
+                                    else
+                                    {
+                                        <h6 style="font-weight: bold;">Lance Atual: @leilao.Quantia €</h6>
+                                    }
+                                </div>
+
+                                <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
+                                    Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
+                                </div>
+
+                                <div class="produto-botao">
+                                    <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block" type="submit">A DECORRER...</a>
+                                </div>
                             }
-                            </div>
-                            
-                            <div class="produto-preco-base" style="font-size: 10px; margin-bottom: 10px;">
-                                Tempo Restante: @CalcularTempoRestante(leilao.DataFinal)
-                            </div>
-
-                            <div class="produto-botao">
-                                <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@leilao.Id" class="btn btn-dark btn-block w-100" type="submit">A DECORRER...</a>
-                            </div>
-                        }
 
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+        }
+            
         }
 }
 else
@@ -189,6 +208,18 @@ else
         else
         {
             return "Tempo Encerrado";
+        }
+    }
+
+    public String AjustarSemiDescricao(String descricao)
+    {
+        if (descricao.Length > 180)
+        {
+            return descricao.Substring(0, 180) + "...";
+        }
+        else
+        {
+            return descricao;
         }
     }
 }

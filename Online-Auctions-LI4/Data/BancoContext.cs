@@ -15,5 +15,6 @@ namespace Online_Auctions_LI4.Data
         public DbSet<LeilaoModel> Leilao { get; set;}
         public DbSet<ProdutoModel> Produto { get; set; }
         public DbSet<LicitacaoModel> Licitacao { get; set;}
+        public DbSet<PagamentoModel> Pagamento { get; set; }
     }
 }

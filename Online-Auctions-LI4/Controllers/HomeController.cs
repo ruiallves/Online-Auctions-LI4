@@ -24,7 +24,7 @@ namespace Online_Auctions_LI4.Controllers
 
         public IActionResult Index()
         {
-            Dictionary<LeilaoModel, ProdutoModel> leiloesEProdutos = new Dictionary<LeilaoModel, ProdutoModel>();
+            var leiloesEProdutos = new Dictionary<LeilaoModel, ProdutoModel>();
 
             var leiloes = _leilaoRepositorio.GetAll();
             var produtos = _produtoRepositorio.listaProdutos();
@@ -32,17 +32,15 @@ namespace Online_Auctions_LI4.Controllers
             foreach (var leilao in leiloes)
             {
                 var produtoAssociado = produtos.FirstOrDefault(p => p.Id == leilao.Produto_ID);
-                if (produtoAssociado != null)
+                if (produtoAssociado != null && leilao.Status == enums.LeilaoEnum.Iniciado)
                 {
-                    if(leilao.Status == enums.LeilaoEnum.Iniciado)
-                    {
-                        leiloesEProdutos.Add(leilao, produtoAssociado);
-                    }
+                    leiloesEProdutos.Add(leilao, produtoAssociado);
                 }
             }
 
             return View(leiloesEProdutos);
         }
+
 
         public IActionResult Faq()
         {

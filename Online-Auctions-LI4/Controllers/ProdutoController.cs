@@ -46,17 +46,38 @@ namespace Online_Auctions_LI4.Controllers
             return View();
         }
 
+        public IActionResult EditarProduto(int id)
+        {
+            ProdutoModel produto = _produtoRepositorio.getProductByID(id);
+            return View(produto);
+        }
+
         [HttpPost]
         public IActionResult Criar(ProdutoModel produto)
         {
             _produtoRepositorio.Adicionar(produto);
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult Editar(ProdutoModel produto)
+        {
+            _produtoRepositorio.Editar(produto);
+            LeilaoModel leilaoDoProduto = _leilaoRepositorio.ObterLeilaoPorProdutoId(produto.Id);
+            _leilaoRepositorio.Editar(leilaoDoProduto, produto.PrecoBase);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Apagar(int id)
+        {
+            _produtoRepositorio.Apagar(id);
+            LeilaoModel leilaoDoProduto = _leilaoRepositorio.ObterLeilaoPorProdutoId(id);
+            _leilaoRepositorio.Apagar(leilaoDoProduto.Id);
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Adicionar(ProdutoModel model)
         {
             model.Utilizador_ID = idSessao();
-            model.AjustarSemiDescricao();
+            AjustarSemiDescricao(model.Descricao);
             _produtoRepositorio.Adicionar(model);
 
             LeilaoModel leilaoModel = new LeilaoModel();
@@ -74,6 +95,18 @@ namespace Online_Auctions_LI4.Controllers
         {
             UserModel user = _sessao.BuscarSessaoDoUser();
             return user.Id;
+        }
+
+        public String AjustarSemiDescricao(String descricao)
+        {
+            if (descricao.Length > 180)
+            {
+                return descricao.Substring(0, 180) + "...";
+            }
+            else
+            {
+                return descricao;
+            }
         }
 
     }

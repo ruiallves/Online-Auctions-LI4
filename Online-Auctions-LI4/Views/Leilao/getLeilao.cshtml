@@ -1,4 +1,4 @@
-﻿@model Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>
+﻿@model Dictionary<LeilaoModel, Dictionary<ProdutoModel, Dictionary<UserModel, Dictionary<UserModel, int>>>>
 @{
     Layout = "_Layout";
 }
@@ -215,10 +215,10 @@
         }
 
       <div class="secundarias">
+            <img src="~/luxo-miami2.jpg" style="width: 21%" alt="ez pizi" />
             <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
-            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
-            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
-            <img src="~/gettyimages-160380432-612x612.jpg" style="width: 21%" alt="ez pizi" />
+            <img src="~/decoracao-apartamento-pequeno-8.jpg" style="width: 21%" alt="ez pizi" />
+            <img src="~/fercopor_enlight_penthouse_4.jpg" style="width: 21%" alt="ez pizi" />
       </div>
 
     </div>
@@ -237,90 +237,143 @@
       </div>
 
       <!-- Product Configuration -->
-      <div class="product-configuration">
-        <table>
-          <tr>
-            <th>Tipo de Lance</th>
-            <th>Valor</th>
-          </tr>
-          <tr>
-            <td>Lance Atual</td>
-                    @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
-                    {
-                        <th style="font-weight: normal;">---------</th>
-                    }
-                    else{
-                        <th>@Model.First().Key.Quantia €</th>
-                    }
-                </tr>
-          <tr>
-            <td>Lance Mínimo</td>
-                    <td>@Model.First().Value.First().Key.PrecoBase €</td>
-          </tr>
-          <tr>
-            <td>Termina em</td>
-            <td>@CalcularTempoRestante(@Model.First().Key.DataFinal)</td>
-          </tr>
-        </table>
-      </div>
+        @if (@Model.First().Key.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado && CalcularTempoRestante(@Model.First().Key.DataFinal) != "Tempo Encerrado")
+        {
+            <div class="product-configuration">
+                <table>
+                    <tr>
+                        <th>Tipo de Lance</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td>Lance Atual</td>
+                        @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
+                        {
+                            <th style="font-weight: normal;">---------</th>
+                        }
+                        else
+                        {
+                            <th>@Model.First().Key.Quantia €</th>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Lance Mínimo</td>
+                        <td>@Model.First().Value.First().Key.PrecoBase €</td>
+                    </tr>
+                    <tr>
+                        <td>Termina em</td>
+                        <td>@CalcularTempoRestante(@Model.First().Key.DataFinal)</td>
+                    </tr>
+                </table>
+            </div>
 
-      <!-- Cable Configuration -->
-      <div class="cable-config">
-        <span>Licitação rápida</span>
+            <!-- Cable Configuration -->
+            <div class="cable-config">
+                <span>Licitação rápida</span>
                 <div class="cable-choose">
-                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
-                        <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
+                    <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                        <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.First().Key.Id" />
                         <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
                         <input type="hidden" name="Horario" value="@DateTime.Now" />
                         <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.25)"></input>
                         <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.25) €</button>
-                </form>
-                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
-                    <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
-                    <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
-                    <input type="hidden" name="Horario" value="@DateTime.Now" />
-                    <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5)"></input>
-                    <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5) €</button>
-                </form>
-                <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
-                    <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
-                    <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
-                    <input type="hidden" name="Horario" value="@DateTime.Now" />
-                    <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2)"></input>
-                    <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2) €</button>
-                </form>
-                </div>       
-
-        <div class="licitaçao">
-                @if (TempData["SucessoLicitacao"] != null)
-                {
-                    <div class="alert alert-success alert-sm" style="font-size:13px;">
-                        @TempData["SucessoLicitacao"]
-                    </div>
-                }
-
-                @if (TempData["ErroLicitacao"] != null)
-                {
-                    <div class="alert alert-danger alert-sm" style="font-size:13px;">
-                        @TempData["ErroLicitacao"]
-                    </div>
-                }
-
-          <span>Licitação direta</span>
-          <div class="product-price">
-            <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
-                <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.Id" />
-                <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
-                <input type="hidden" name="Horario" value="@DateTime.Now" />
-                <div class="d-flex" style="align-items: center; margin-bottom: 10px;">
-                            <textarea class="textarea" name="Valor" required placeholder="Valor €"></textarea>
-                            <button type="submit" class="cart-btn">Licitação</button>
+                    </form>
+                    <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                        <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.First().Key.Id" />
+                        <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                        <input type="hidden" name="Horario" value="@DateTime.Now" />
+                        <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5)"></input>
+                        <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 1.5) €</button>
+                    </form>
+                    <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                        <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.First().Key.Id" />
+                        <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                        <input type="hidden" name="Horario" value="@DateTime.Now" />
+                        <input type="hidden" name="Valor" value="@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2)"></input>
+                        <button>@calculaPrimeiraPercentagem(@Model.First().Key.Quantia, 2) €</button>
+                    </form>
                 </div>
-            </form>
-          </div>
-        </div>
 
-      </div>
+                <div class="licitaçao">
+                    @if (TempData["SucessoLicitacao"] != null)
+                    {
+                        <div class="alert alert-success alert-sm" style="font-size:13px;">
+                            @TempData["SucessoLicitacao"]
+                        </div>
+                    }
+
+                    @if (TempData["ErroLicitacao"] != null)
+                    {
+                        <div class="alert alert-danger alert-sm" style="font-size:13px;">
+                            @TempData["ErroLicitacao"]
+                        </div>
+                    }
+
+                    <span>Licitação direta</span>
+                    <div class="product-price">
+                        <form method="post" asp-controller="Leilao" asp-action="Licitar" asp-route-leilaoId="@Model.First().Key.Id">
+                            <input type="hidden" name="Utilizador_ID" value="@Model.First().Value.First().Value.First().Key.Id" />
+                            <input type="hidden" name="Leilao_ID" value="@Model.First().Key.Id" />
+                            <input type="hidden" name="Horario" value="@DateTime.Now" />
+                            <div class="d-flex" style="align-items: center; margin-bottom: 10px;">
+                                <textarea class="textarea" name="Valor" required placeholder="Valor €"></textarea>
+                                <button type="submit" class="cart-btn">Licitação</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        }
+        else if (CalcularTempoRestante(Model.First().Key.DataFinal) == "Tempo Encerrado")
+        {
+            <div class="product-configuration">
+                <table>
+                    <tr>
+                        <th>Tipo de Lance</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td>Lance Vencedor</td>
+                        @if (@Model.First().Value.First().Key.PrecoBase == @Model.First().Key.Quantia)
+                        {
+                            <th style="font-weight: normal;">---------</th>
+                        }
+                        else
+                        {
+                            <th>@Model.First().Key.Quantia €</th>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Vencedor</td>
+                        <td>@Model.First().Value.First().Value.First().Key.Username</td>
+                    </tr>
+                    <tr>
+                        <td>Numero de licitações</td>
+                        <td>@Model.First().Value.First().Value.First().Value.First().Value</td>
+                    </tr>
+                </table>
+            </div>
+
+            @if (Model.First().Value.First().Value.First().Value.First().Key.Username == Model.First().Value.First().Value.First().Key.Username && Model.First().Value.First().Key.Utilizador_ID != Model.First().Value.First().Value.First().Value.First().Key.Id)
+            {
+                <div class="pt-1" style="margin-top:20px;">
+                    <h6 style="text-align:center;margin-bottom:20px;font-weight: bold;">Parabéns, você foi o vencedor do leilão!</h6>
+                    <button class="btn btn-dark btn-block w-100" type="submit">Reclamar Leilão</button>
+                </div>
+            }
+        }
+
+        else if (@Model.First().Key.Status == Online_Auctions_LI4.enums.LeilaoEnum.Espera)
+        {
+            <div class="pt-1" style="margin-top:20px;">
+                <h6 style="text-align:center;margin-bottom:20px;font-weight: bold;">Este leilão ainda não foi iniciado.</h6>
+                @if (Model.First().Value.First().Value.First().Value.First().Key.Id == Model.First().Value.First().Key.Utilizador_ID)
+                {
+                    <button asp-controller="Produto" asp-action="Index" class="btn btn-dark btn-block w-100" type="submit">Iniciar Leilão</button>
+                }
+            </div>
+        }
 
   </main>
 

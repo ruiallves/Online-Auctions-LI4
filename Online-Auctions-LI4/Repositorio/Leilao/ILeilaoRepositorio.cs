@@ -12,5 +12,7 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
         public LeilaoModel Iniciar(int leilaoId, DateTime novaDataFinal);
         public List<LeilaoModel> GetAll();
         public void SaveChanges();
+        public bool Apagar(int id);
+        public LeilaoModel Editar (LeilaoModel leilao, double novoPreco);
     }
 }

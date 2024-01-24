@@ -5,7 +5,7 @@
 
 
 <style>
-    {
+    *{
         font-family: 'Roboto', sans-serif;
     }
 
@@ -30,6 +30,7 @@
     .titulo {
         margin-top: 10px;
         text-align: center;
+        height: 15%;
     }
 
     .titulo:hover{
@@ -84,7 +85,7 @@
     }
 
     .solid-dark-button:hover {
-        background-color: #black;
+        background-color: black;
         color:honeydew;
     }
 
@@ -95,36 +96,38 @@
 <div class="row-product">
     @foreach (var pair in Model)
     {
-        <div class="product-card">
-            <div class="titulo">
-                <h5><a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" style="color: black;">@pair.Value.Titulo</a></h5>
-            </div>
-            <div class="product-tumb">
-                <img src="@Url.Content("~/" + pair.Value.Imagem)" style="width: 228px;height: 120px;" alt="tazonde iamgem">
-            </div>
-            <div class="product-details">
-                <div class="product-catagory">
-                    <span style="text-transform: uppercase">@pair.Value.Tipologia</span>
-                    <span>@pair.Value.AreaUtil m²</span>
-                    <span>@pair.Value.Localizacao</span>
+        @if (CalcularTempoRestante(pair.Key.DataFinal) != "Tempo Encerrado")
+        {
+            <div class="product-card">
+                <div class="titulo">
+                    <h5><a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" style="color: black;">@pair.Value.Titulo</a></h5>
                 </div>
-                <h4>
-                    @if(pair.Value.PrecoBase == pair.Key.Quantia)
-                    {
-                        <a class="product-details-a">Preço Atual: -------- </a>
-                    }
-                    else
-                    {
-                        <a class="product-details-a" style="color: black">Preço Atual: @pair.Key.Quantia €</a>
-                    }
-                </h4>
-                <p>Termina em @CalcularTempoRestante(pair.Key.DataFinal)</p>
-                <div>
-                    <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" class="solid-dark-button btn btn-dark btn-block w-100">Licite agora</a>
+                <div class="product-tumb">
+                    <img src="@Url.Content("~/" + pair.Value.Imagem)" style="width: 228px;height: 120px;" alt="tazonde iamgem">
+                </div>
+                <div class="product-details">
+                    <div class="product-catagory">
+                        <span style="text-transform: uppercase">@pair.Value.Tipologia</span>
+                        <span>@pair.Value.AreaUtil m²</span>
+                        <span>@pair.Value.Localizacao</span>
+                    </div>
+                    <h4>
+                        @if (pair.Value.PrecoBase == pair.Key.Quantia)
+                        {
+                            <a class="product-details-a" style="color: black">Preço Atual: -------- </a>
+                        }
+                        else
+                        {
+                            <a class="product-details-a" style="color: black">Preço Atual: @pair.Key.Quantia €</a>
+                        }
+                    </h4>
+                    <p>Termina em @CalcularTempoRestante(pair.Key.DataFinal)</p>
+                    <div>
+                        <a asp-controller="Leilao" asp-action="getLeilao" asp-route-id="@pair.Key.Id" class="solid-dark-button btn btn-dark btn-block w-100">Licite agora</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        }
     }
 </div>
 
