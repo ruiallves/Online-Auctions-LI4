@@ -86,6 +86,19 @@ namespace Online_Auctions_LI4.Controllers
             return View(leiloesDoUsuario);
         }
 
+        public IActionResult Editar(int id)
+        {
+            UserModel user = _usuarioRepositorio.ProcuraPorId(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(UserModel user)
+        {
+            _usuarioRepositorio.Editar(user);
+            return RedirectToAction("Index");
+        }
+
 
         public UserModel idSessão()
         {

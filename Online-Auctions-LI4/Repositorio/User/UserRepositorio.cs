@@ -28,5 +28,44 @@ namespace Online_Auctions_LI4.Repositorio.User
         {
             return _context.Users.FirstOrDefault(x => x.Id == userId);
         }
+
+        public UserModel Editar(UserModel user)
+        {
+            UserModel userDB = ProcuraPorId(user.Id);
+            if(userDB == null)
+            {
+                throw new Exception("Não foi possivel editar o user");
+
+            }
+
+            userDB.Name = user.Name;
+            userDB.Username = user.Username;
+            if(user.Password != null)
+            {
+                userDB.Password = user.Password;
+            }
+            userDB.Email = user.Email;
+            userDB.NIF = user.NIF;
+            userDB.morada = user.morada;
+
+            _context.Users.Update(userDB);
+            _context.SaveChanges();
+            return userDB;
+        }
+
+        public bool IsNIFUnique(int nif)
+        {
+                return !_context.Users.Any(u => u.NIF == nif);
+        }
+
+        public bool IsEmailUnique(string email)
+        {
+            return !_context.Users.Any(u => u.Email == email);
+        }
+
+        public bool IsUserMailUnique(string userMail)
+        {
+            return !_context.Users.Any(u => u.Email == userMail);
+        }
     }
 }

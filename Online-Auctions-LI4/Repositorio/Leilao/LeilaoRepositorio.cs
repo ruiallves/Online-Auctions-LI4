@@ -78,7 +78,6 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
             if (leilaoDB == null)
             {
                 throw new Exception("Houve um erro ao apagar o leilao.");
-                return false;
             }
 
             _bancoContext.Leilao.Remove(leilaoDB);

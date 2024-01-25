@@ -258,71 +258,141 @@
         {
             if (pair.Value != null && pair.Value.Any() && pair.Value.First().Value != null && pair.Value.First().Value.Any())
                     {
-                        <div class="sidenav">
-                            <div class="profile" style="text-align: center;align-items: center;">
-                                <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="150" height="150">
+                if(Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Licitador)
+                {
+                    <div class="sidenav">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
 
-                                <div class="name">
-                                    @Model.First().Key.Name
-                                </div>
-                                <div class="job">
-                                    @Model.First().Key.Username
-                                </div>
-                                <div class="loc">
-                                    @Model.First().Key.morada
-                                </div>
+                            <div class="name">
+                                @Model.First().Key.Name
                             </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
+                        </div>
 
-                            <div class="sidenav-url">
-                                <div class="url" style="margin-top: 90px;">
-                                    <hr align="center">
-                                    <a href="#profile">Editar Perfil</a>
-                                    <hr align="center">
-                                </div>
-                                <div class="url">
-                                    <a href="#settings">Produtos</a>
-                                    <hr align="center">
-                                </div>
-                                <div class="url">
-                                    <a href="#settings">Log Out</a>
-                                    <hr align="center">
-                                </div>
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                                <hr align="center">
                             </div>
-                </div>
+                            <div class="url">
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="sidenav">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                            <div class="name">
+                                @Model.First().Key.Name
+                            </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
+                        </div>
+
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Produtos</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
+                        </div>
+                    </div>
+                }
             }
             else
             {
-                <div class="sidenav-semProdutos">
-                    <div class="profile" style="text-align: center;align-items: center;">
-                        <img src="~/Captura de ecrã 2023-11-26 232802.png" alt="" width="180" height="180">
+                if (Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Licitador)
+                {
+                    <div class="sidenav-semProdutos">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="180" height="180">
 
-                        <div class="name">
-                            @Model.First().Key.Name
+                            <div class="name">
+                                @Model.First().Key.Name
+                            </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
                         </div>
-                        <div class="job">
-                            @Model.First().Key.Username
-                        </div>
-                        <div class="loc">
-                            @Model.First().Key.morada
+
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Produtos</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
                         </div>
                     </div>
+                }
+                else
+                {
+                    <div class="sidenav-semProdutos">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="180" height="180">
 
-                    <div class="sidenav-url">
-                        <div class="url" style="margin-top: 90px;">
-                            <hr align="center">
-                            <a href="#profile">Editar Perfil</a>
-                            <hr align="center">
+                            <div class="name">
+                                @Model.First().Key.Name
+                            </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
                         </div>
-                        <div class="url">
-                            <a href="#settings">Produtos</a>
-                            <hr align="center">
-                        </div>
-                        <div class="url">
-                            <a href="#settings">Log Out</a>
-                            <hr align="center">
+
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Produtos</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
         }
 
