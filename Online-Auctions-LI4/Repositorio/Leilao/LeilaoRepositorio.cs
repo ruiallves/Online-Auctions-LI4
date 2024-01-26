@@ -111,8 +111,21 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
                 .Count();
         }
 
+        public async Task VerificarLeiloesAsync()
+        {
+            // Obtém todos os leilões ativos
+            var leiloesAtivos = _bancoContext.Leilao
+                .Where(l => l.Status == LeilaoEnum.Iniciado && l.DataFinal <= DateTime.Now)
+                .ToList();
 
-
-
+            foreach (var leilao in leiloesAtivos)
+            {
+                if (leilao.DataFinal <= DateTime.Now)
+                {
+                    leilao.Status = LeilaoEnum.Terminado;
+                    _bancoContext.SaveChanges();
+                }
+            }
+        }
     }
 }

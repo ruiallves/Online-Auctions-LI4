@@ -1,4 +1,4 @@
-﻿@model Dictionary<UserModel, Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>
+﻿@model Dictionary<UserModel, List<Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>>
 @{
     Layout = "_Layout";
     ViewData["Tittle"] = "Perfil";
@@ -256,7 +256,8 @@
 
         @foreach (var pair in Model)
         {
-            if (pair.Value != null && pair.Value.Any() && pair.Value.First().Value != null && pair.Value.First().Value.Any())
+            var firstUser = pair.Value.FirstOrDefault().Values.FirstOrDefault().Keys;
+            if (firstUser != null)
                     {
                 if(Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Licitador)
                 {
@@ -468,13 +469,15 @@
             <h2 style="margin-bottom: 50px;">Histórico De Leilões</h2>
             @if (Model != null)
             {
-                @foreach (var pair in Model)
+                @foreach (var userPair in Model)
                 {
-                    if (pair.Value.Any() && pair.Value.First().Value.Any())
+                    var user = userPair.Key;
+                    foreach (var leilaoInfo in userPair.Value)
                     {
-                        var produto = pair.Value.First().Value.First().Key;
-                        var leilao = pair.Value.First().Key;
-                        var userVencedor = pair.Value.First().Value.First().Value;
+                        var leilao = leilaoInfo.Keys.First();
+                        var produtoInfo = leilaoInfo.Values.First();
+                        var produto = produtoInfo.Keys.First();
+                        var userVencedor = produtoInfo.Values.First();
 
                         if (leilao.Status == Online_Auctions_LI4.enums.LeilaoEnum.Iniciado)
                         {
@@ -534,14 +537,14 @@
                                         }
                                         @if (CalcularTempoRestante(leilao.DataFinal) == "Tempo Encerrado")
                                         {
-                                            <div class="produto-preco-base" style="font-size: 14px; margin-top: 5px;">
+                                            <div class="produto-preco-base" style="font-size: 10px; margin-top: 5px;">
                                                 @if (@leilao.Quantia == @produto.PrecoBase)
                                                 {
-                                                    <p style="font-weight: bold;">Lance Vencedor: ----</p>
+                                                    <p style="font-weight: bold; font-size: 10px;">Lance Vencedor: ----</p>
                                                 }
                                                 else
                                                 {
-                                                    <h6 style="font-weight: bold;">Lance Vencedor: @leilao.Quantia €</h6>
+                                                    <h6 style="font-weight: bold; font-size: 15px; margin-bottom: 3px;">Lance Vencedor: @leilao.Quantia €</h6>
                                                 }
                                             </div>
 

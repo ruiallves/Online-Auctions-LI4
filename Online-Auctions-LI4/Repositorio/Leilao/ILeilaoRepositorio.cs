@@ -15,5 +15,6 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
         public bool Apagar(int id);
         public LeilaoModel Editar (LeilaoModel leilao, double novoPreco);
         public int GetLeiloesCriados(int userId);
+        Task VerificarLeiloesAsync();
     }
 }

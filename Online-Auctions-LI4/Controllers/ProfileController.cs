@@ -30,7 +30,9 @@ namespace Online_Auctions_LI4.Controllers
         [PaginaParaUserLogado]
         public ActionResult Index()
         {
-            UserModel userSessao = idSessão();
+
+            UserModel perfilAtualizado = idSessão();
+            UserModel userSessao = _usuarioRepositorio.ProcuraPorId(perfilAtualizado.Id);
             var leiloes = _leilaoRepositorio.GetAll();
             List<ProdutoModel> produtos;
 
@@ -43,11 +45,8 @@ namespace Online_Auctions_LI4.Controllers
                 produtos = _licitacaoRepositorio.BuscarLeiloesPorUsuario(userSessao.Id);
             }
 
-            Dictionary<UserModel, Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>> leiloesDoUsuario =
-                new Dictionary<UserModel, Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>
-            {
-        { userSessao, new Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>() }
-            };
+            Dictionary<UserModel, List<Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>> leiloesDoUsuario =
+                new Dictionary<UserModel, List<Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>>();
 
             foreach (var leilao in leiloes)
             {
@@ -57,34 +56,26 @@ namespace Online_Auctions_LI4.Controllers
                     {
                         LicitacaoModel ultimaLicitacao = _licitacaoRepositorio.BuscarUltimaLicitacaoPorLeilao(leilao.Id);
 
-                        if (ultimaLicitacao != null)
+                        if (!leiloesDoUsuario.ContainsKey(userSessao))
                         {
-                            UserModel userVencedor = _usuarioRepositorio.ProcuraPorId(ultimaLicitacao.Utilizador_ID);
-
-                            if (!leiloesDoUsuario[userSessao].ContainsKey(leilao))
-                            {
-                                leiloesDoUsuario[userSessao].Add(leilao, new Dictionary<ProdutoModel, UserModel>());
-                            }
-
-                            leiloesDoUsuario[userSessao][leilao].Add(produto, userVencedor);
+                            leiloesDoUsuario.Add(userSessao, new List<Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>>());
                         }
-                        else
-                        {
-                            UserModel userVencedor = userSessao;
 
-                            if (!leiloesDoUsuario[userSessao].ContainsKey(leilao))
-                            {
-                                leiloesDoUsuario[userSessao].Add(leilao, new Dictionary<ProdutoModel, UserModel>());
-                            }
+                        Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>> leilaoInfo =
+                            new Dictionary<LeilaoModel, Dictionary<ProdutoModel, UserModel>>();
 
-                            leiloesDoUsuario[userSessao][leilao].Add(produto, userVencedor);
-                        }
+                        UserModel userVencedor = (ultimaLicitacao != null) ? _usuarioRepositorio.ProcuraPorId(ultimaLicitacao.Utilizador_ID) : userSessao;
+
+                        leilaoInfo.Add(leilao, new Dictionary<ProdutoModel, UserModel> { { produto, userVencedor } });
+
+                        leiloesDoUsuario[userSessao].Add(leilaoInfo);
                     }
                 }
             }
 
             return View(leiloesDoUsuario);
         }
+
 
         public IActionResult Editar(int id)
         {

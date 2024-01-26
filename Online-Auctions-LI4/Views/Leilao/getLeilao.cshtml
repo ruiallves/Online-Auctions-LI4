@@ -359,7 +359,7 @@
             {
                 <div class="pt-1" style="margin-top:20px;">
                     <h6 style="text-align:center;margin-bottom:20px;font-weight: bold;">Parabéns, você foi o vencedor do leilão!</h6>
-                    <button class="btn btn-dark btn-block w-100" type="submit">Reclamar Leilão</button>
+                    <a asp-controller="Pagamento" asp-action="Index" asp-route-produto_ID="@Model.First().Value.First().Key.Id" asp-route-user_ID="@Model.First().Value.First().Value.First().Key.Id" class="btn btn-dark btn-block w-100">Reclamar Leilão</a>
                 </div>
             }
         }

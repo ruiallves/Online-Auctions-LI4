@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Dictionary<ProdutoModel, Dictionary<UserModel, LeilaoModel>>
+@{
     Layout = "_layout";
     ViewData["Tittle"] = "Login";
 }
@@ -264,17 +265,17 @@ ul li:hover {
                     <tbody>
                         <tr>
                             <td>
-                                <img src='~/decoracao-apartamento-pequeno-8.jpg' class='full-width'></img>
+                                <img src='@Url.Content("~/" + Model.First().Key.Imagem)' class='full-width'></img>
                             </td>
                             <td>
-                                <br> <span class='thin' style="font-weight:bold;">T5 Odivelas todo mobilado</span>
-                                <br style="font-size: 15px;"> Odivelas, Portugal<br><br><br>
+                                <br> <span class='thin' style="font-weight:bold;">@Model.First().Key.Titulo</span>
+                                <br style="font-size: 15px;">@Model.First().Key.Localizacao<br><br><br>
                             </td>
 
                         </tr>
                         <tr>
                             <td>
-                                <div class='price'>170000.00€</div>
+                                <div class='price'>@Model.First().Value.First().Value.Quantia.00€</div>
                             </td>
                         </tr>
                     </tbody>
@@ -287,8 +288,8 @@ ul li:hover {
                         TOTAL
                     </span>
                     <span style='float:right; text-align:right;'>
-                        <div class='thin dense'>5100.00€</div>
-                        175100.00€
+                        <div class='thin dense'>@getTaxas(Model.First().Value.First().Value.Quantia).00€</div>
+                        @getFinalPrice(@getTaxas(Model.First().Value.First().Value.Quantia), Model.First().Value.First().Value.Quantia).00€
                     </span>
                 </div>
             </div>
@@ -300,34 +301,14 @@ ul li:hover {
                         <td>Selecione o metodo de pagamento: </td>
                         <td>
                             <div class='dropdown' id='card-dropdown'>
-                                <div class='dropdown-btn' id='current-card'>Visa</div>
-                                <div class='dropdown-select'>
-                                    <ul>
-                                        <li>Master Card</li>
-                                        <li>American Express</li>
-                                    </ul>
-                                </div>
+                                <div class='dropdown-btn' id='current-card'>MBWAY</div>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80' class='credit-card-image' id='credit-card-image'></img>
-                Numero do cartão
+                <img src='~/Logo_MBWay@2x.png' height='80' class='credit-card-image' style="margin-bottom: 50px;" id='credit-card-image'></img>
+                Numero De Telemovel
                 <input class='input-field'></input>
-                Nome do proprietário do cartão
-                <input class='input-field'></input>
-                <table class='half-input-table'>
-                    <tr>
-                        <td>
-                            Expira em
-                            <input class='input-field'></input>
-                        </td>
-                        <td>
-                            CVC
-                            <input class='input-field'></input>
-                        </td>
-                    </tr>
-                </table>
                 <button class='pay-btn'>Checkout</button>
 
             </div>
@@ -335,3 +316,18 @@ ul li:hover {
         </div>
     </div>
 </div>
+
+@functions{
+
+    public Double getTaxas(Double quantia)
+    {
+        quantia = quantia * 0.03;
+        return quantia;
+    }
+
+    public double getFinalPrice(Double quantiaWTaxas, Double Quantia)
+    {
+        return quantiaWTaxas + Quantia;
+    }
+
+}
