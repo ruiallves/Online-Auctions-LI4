@@ -100,24 +100,18 @@ namespace Online_Auctions_LI4.Repositorio.Leilao
             return leilaoDB;
         }
 
-        public List<LeilaoModel> GetLeiloesLicitados(int userId)
-        {
-            var leiloesLicitados = _bancoContext.Licitacao
-                .Where(l => l.Utilizador_ID == userId)
-                .Select(l => l.Leilao)
-                .Distinct()
-                .ToList();
-
-            return leiloesLicitados;
-        }
-
         public int GetLeiloesCriados(int userId)
         {
-            var leiloesCriados = _bancoContext.Leilao
-                .Count(leilao => leilao.Utilizador_ID == userId);
-
-            return leiloesCriados;
+            return _bancoContext.Leilao
+                .Join(_bancoContext.Produto,
+                    leilao => leilao.Produto_ID,
+                    produto => produto.Id,
+                    (leilao, produto) => new { Leilao = leilao, Produto = produto })
+                .Where(joinResult => joinResult.Produto.Utilizador_ID == userId)
+                .Count();
         }
+
+
 
 
     }

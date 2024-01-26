@@ -12,6 +12,7 @@ namespace Online_Auctions_LI4.Repositorio.User
         public bool IsEmailUnique(string email);
         public bool IsUserMailUnique(string userMail);
         List<UserModel> GetAllUsers();
+        public bool Apagar(int id);
 
     }
 }

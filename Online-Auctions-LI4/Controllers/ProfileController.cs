@@ -92,42 +92,43 @@ namespace Online_Auctions_LI4.Controllers
             return View(user);
         }
 
+        [PaginaParaAdmin]
         public IActionResult Painel(int id)
         {
             UserModel currentUser = _usuarioRepositorio.ProcuraPorId(id);
-
             List<UserModel> allUsers = _usuarioRepositorio.GetAllUsers();
 
-            Dictionary<UserModel, List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>>> data =
-                new Dictionary<UserModel, List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>>>();
+            List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>> data =
+                new List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>>();
 
             foreach (var user in allUsers)
             {
-                List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>> userDetailsList =
-                    new List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>>();
-
                 int leiloesLicitados = _licitacaoRepositorio.BuscarLeiloesPorUsuario(user.Id).Count;
                 int valorTotalLicitacoes = _licitacaoRepositorio.GetValorTotalLicitacoes(user.Id);
                 int leiloesCriados = _leilaoRepositorio.GetLeiloesCriados(user.Id);
 
-                Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>> userDetails =
-                    new Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>
-                    {
-                { user, new Dictionary<int, Dictionary<int, int>> {
-                        { leiloesLicitados, new Dictionary<int, int> {
-                                { valorTotalLicitacoes, leiloesCriados }
-                            }
-                        }
+                Dictionary<int, Dictionary<int, int>> userDetails =
+                    new Dictionary<int, Dictionary<int, int>> {
+                { leiloesLicitados, new Dictionary<int, int> {
+                        { valorTotalLicitacoes, leiloesCriados }
                     }
                 }
                     };
 
-                userDetailsList.Add(userDetails);
-                data.Add(currentUser, userDetailsList);
+                Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>> userDict =
+                    new Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>
+                    {
+                { user, userDetails }
+                    };
+
+                data.Add(userDict);
             }
 
             return View(data);
         }
+
+
+
 
 
         [HttpPost]
@@ -135,6 +136,15 @@ namespace Online_Auctions_LI4.Controllers
         {
             _usuarioRepositorio.Editar(user);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Apagar(int id)
+        {
+            if (_usuarioRepositorio.Apagar(id))
+            {
+                TempData["ContaApagada"] = "Conta apagada com sucesso!";
+            };
+            return RedirectToAction("Painel");
         }
 
 

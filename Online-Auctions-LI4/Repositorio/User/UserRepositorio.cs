@@ -72,5 +72,20 @@ namespace Online_Auctions_LI4.Repositorio.User
         {
             return _context.Users.ToList();
         }
+
+        public bool Apagar(int id)
+        {
+            UserModel user = ProcuraPorId(id);
+
+            if (user == null)
+            {
+                throw new Exception("Houve um erro ao apagar o User.");
+            }
+
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 }
