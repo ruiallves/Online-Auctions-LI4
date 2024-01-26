@@ -79,6 +79,25 @@ namespace Online_Auctions_LI4.Migrations
                     b.ToTable("Licitacao");
                 });
 
+            modelBuilder.Entity("Online_Auctions_LI4.Models.PagamentoModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Produto_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Utilizador_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pagamento");
+                });
+
             modelBuilder.Entity("Online_Auctions_LI4.Models.ProdutoModel", b =>
                 {
                     b.Property<int>("Id")
@@ -131,10 +150,6 @@ namespace Online_Auctions_LI4.Migrations
 
                     b.Property<int>("Utilizador_ID")
                         .HasColumnType("int");
-
-                    b.Property<string>("semiDescricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

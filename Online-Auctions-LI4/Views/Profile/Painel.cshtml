@@ -1,0 +1,537 @@
+﻿@model Dictionary<UserModel, List<Dictionary<UserModel, Dictionary<int, Dictionary<int, int>>>>>
+@{
+    Layout = "_Layout";
+    ViewData["Tittle"] = "Perfil";
+}
+
+<head>
+    <title>Profile</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            line-height: 1.5;
+            font-family: 'Poppins', sans-serif;
+        }
+
+
+        h2,
+        h3,
+        a {
+            color: #34495e;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .main-nav a {
+            padding: 10px 15px;
+            text-transform: uppercase;
+            text-align: center;
+            display: block;
+        }
+
+        .main-nav a {
+            color: #34495e;
+            font-size: .99em;
+        }
+
+            .main-nav a:hover {
+                color: #718daa;
+            }
+
+        /* Sidenav */
+        .sidenav-semProdutos {
+            background-color: #efefef;
+            color: #333;
+            border-bottom-right-radius: 25px;
+            height: 86%;
+            overflow-x: hidden;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            margin-left: -200px;
+            margin-top: -16px;
+            margin-bottom: -90px;
+        }
+
+        .sidenav {
+            background-color: #efefef;
+            color: #333;
+            border-bottom-right-radius: 25px;
+            height: 86%;
+            overflow-x: hidden;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            margin-left: -200px;
+            margin-top: -16px;
+            margin-bottom: -90px;
+        }
+
+        .profile {
+            margin-bottom: 20px;
+            margin-top: -12px;
+        }
+
+            .profile img {
+                box-shadow: 0px 0px 5px 1px grey;
+                margin-top: 40px;
+            }
+
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+            padding-top: 20px;
+        }
+
+        .job {
+            font-size: 13px;
+            font-weight: bold;
+            padding-top: 2px;
+            color: #818181;
+        }
+
+        .loc {
+            font-size: 15px;
+            font-weight: bold;
+            padding-top: 15px;
+        }
+
+        .url, hr {
+            text-align: center;
+        }
+
+            .url hr {
+                width: 100%;
+            }
+
+            .url a {
+                color: #818181;
+                display: block;
+                font-size: 20px;
+                margin: 10px 0;
+                padding: 6px 8px;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+
+                .url a:hover, .url .active {
+                    color: #454444;
+                }
+
+        /* End */
+
+        /* Main */
+
+        .main {
+            padding-left: 150px;
+            width: 100%;
+        }
+
+            .main h2 {
+                color: #333;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .main .card {
+                background-color: #efefef;
+                border-radius: 18px;
+                box-shadow: 1px 1px 8px 0 grey;
+                height: auto;
+                margin-bottom: 30px;
+                padding: 50px 0 50px 50px;
+                width: 100%;
+            }
+
+                .main .card table {
+                    border: none;
+                    font-size: 16px;
+                    height: 270px;
+                    width: 80%;
+                }
+
+        .edit {
+            position: absolute;
+            color: #fff;
+            right: 14%;
+        }
+
+        .container-section {
+            display: flex;
+        }
+
+        .top {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+            .top a {
+                background-color: black;
+                color: white;
+                padding: 8px 8px;
+                border-radius: 10px;
+            }
+
+        .produto-display {
+            border: 2px solid black;
+            padding: 5px;
+            border-radius: 10px;
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .produto-texto {
+            margin: 0 20px;
+            width: 500px;
+        }
+
+        .produto-titulo {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .produto-localizacao {
+            font-size: 13px;
+        }
+
+        .produto-descricao {
+            color: #62676B;
+            font-size: 15px;
+            width: 85%;
+        }
+
+        .produto-info-preco {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 40%;
+        }
+
+        .teste {
+            display: flex;
+        }
+
+        .link-leilao {
+            transition: color 0.3s ease;
+        }
+
+
+            .link-leilao:hover {
+                text-decoration: underline;
+                color: #281A1A;
+            }
+
+        .data {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+        }
+
+        .margin-my {
+            margin-left: 70px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .form-control-my {
+            display: block;
+            width: 100%;
+            padding: 0.2rem 0.5rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+
+$base-spacing-unit: 24px;
+$half-spacing-unit: $base-spacing-unit / 2;
+
+$color-alpha: #1772FF;
+$color-form-highlight: #EEEEEE;
+
+*, *:before, *:after {
+	box-sizing:border-box;
+}
+
+body {
+	padding:$base-spacing-unit;
+	font-family:'Source Sans Pro', sans-serif;
+	margin:0;
+    height: 900px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin:0;
+}
+
+.container2 {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.table {
+	width:100%;
+	border:1px solid $color-form-highlight;
+}
+
+.table-header {
+	display:flex;
+	width:100%;
+	background:#000;
+	padding:($half-spacing-unit * 1.5) 0;
+}
+
+.table-row {
+	display:flex;
+	width:100%;
+	padding:($half-spacing-unit * 1.5) 0;
+	
+	&:nth-of-type(odd) {
+		background:$color-form-highlight;
+	}
+}
+
+.table-data, .header__item {
+	flex: 1 1 20%;
+	text-align:center;
+}
+
+.header__item {
+	text-transform:uppercase;
+}
+
+.filter__link {
+	color:white;
+	text-decoration: none;
+	position:relative;
+	display:inline-block;
+	padding-left:$base-spacing-unit;
+	padding-right:$base-spacing-unit;
+	
+	&::after {
+		content:'';
+		position:absolute;
+		right:-($half-spacing-unit * 1.5);
+		color:white;
+		font-size:$half-spacing-unit;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	&.desc::after {
+		content: '(desc)';
+	}
+
+	&.asc::after {
+		content: '(asc)';
+	}
+	
+}
+
+    </style>
+</head>
+
+
+<body>
+    <section class="container-section">
+
+        @if (Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Licitador)
+        {
+            <div class="sidenav">
+                <div class="profile" style="text-align: center;align-items: center;">
+                    <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                    <div class="name">
+                        @Model.First().Key.Name
+                    </div>
+                    <div class="job">
+                        @Model.First().Key.Username
+                    </div>
+                    <div class="loc">
+                        @Model.First().Key.morada
+                    </div>
+                </div>
+
+                <div class="sidenav-url">
+                    <div class="url" style="margin-top: 90px;">
+                        <hr align="center">
+                        <a asp-controller="Profile" asp-action="Editar" asp-route-id="Model.First().Key.Id">Editar Perfil</a>
+                        <hr align="center">
+                    </div>
+                    <div class="url">
+                        <a href="#settings">Log Out</a>
+                        <hr align="center">
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Admin)
+        {
+            <div class="sidenav">
+                <div class="profile" style="text-align: center;align-items: center;">
+                    <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                    <div class="name">
+                        @Model.First().Key.Name
+                    </div>
+                    <div class="job">
+                        @Model.First().Key.Username
+                    </div>
+                    <div class="loc">
+                        @Model.First().Key.morada
+                    </div>
+                </div>
+
+                <div class="sidenav-url">
+                    <div class="url" style="margin-top: 90px;">
+                        <hr align="center">
+                        <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                        <hr align="center">
+                    </div>
+                    <div class="url">
+                        <a asp-controller="Profile" asp-action="Painel">Painel</a>
+                    </div>
+                    <div class="url">
+                        <hr align="center">
+                        <a href="#settings">Log Out</a>
+                        <hr align="center">
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="sidenav">
+                <div class="profile" style="text-align: center;align-items: center;">
+                    <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                    <div class="name">
+                        @Model.First().Key.Name
+                    </div>
+                    <div class="job">
+                        @Model.First().Key.Username
+                    </div>
+                    <div class="loc">
+                        @Model.First().Key.morada
+                    </div>
+                </div>
+
+                <div class="sidenav-url">
+                    <div class="url" style="margin-top: 90px;">
+                        <hr align="center">
+                        <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                        <hr align="center">
+                    </div>
+                    <div class="url">
+                        <a href="#settings">Produtos</a>
+                        <hr align="center">
+                    </div>
+                    <div class="url">
+                        <a href="#settings">Log Out</a>
+                        <hr align="center">
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- End -->
+        <!-- Main -->
+        <div class="main w-100">
+            <h2 style="margin-bottom: 50px; text-align:center; align-items:center;">Painel De Controlo</h2>
+            <div class="container2">
+
+                <div class="table">
+                    <div class="table-header">
+                        <div class="header__item"><a id="name" class="filter__link" href="#">ID</a></div>
+                        <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Username</a></div>
+                        <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Estado Da Conta</a></div>
+                        <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Leilões Licitados</a></div>
+                        <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Valor licitado €</a></div>
+                        <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Leilões Criados</a></div>
+                        <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Opções</a></div>
+                    </div>
+                    <div class="table-content">
+                        @foreach (var pair in Model)
+                        {
+                            var user = pair.Key;
+                            var leiloesLicitados = pair.Value.First().First().Value.First().Key;
+                            var valorLicitado = pair.Value.First().First().Value.First().Value;
+                            var leiloesCriados = pair.Value.First().First().Key;
+
+                            <div class="table-row">
+                                <div class="table-data">@user.Id</div>
+                                <div class="table-data">@user.Username</div>
+                                <div class="table-data">@user.UserEnum</div>
+                                <div class="table-data">@leiloesLicitados</div>
+                                <div class="table-data">@valorLicitado</div>
+                                <div class="table-data">@leiloesCriados</div>
+                                <div class="table-data">
+                                    <button onclick="location.href='@Url.Action("Detalhes", "Usuario", new { id = user.Id })'">Detalhes</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+@functions {
+    public string CalcularTempoRestante(DateTime dataFinal)
+    {
+        var agora = DateTime.Now;
+        var tempoRestante = dataFinal - agora;
+
+        if (tempoRestante > TimeSpan.Zero)
+        {
+            // Formatação do tempo restante
+            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+        }
+        else
+        {
+            return "Tempo Encerrado";
+        }
+    }
+
+    public String AjustarSemiDescricao(String descricao)
+    {
+        if (descricao.Length > 180)
+        {
+            return descricao.Substring(0, 180) + "...";
+        }
+        else
+        {
+            return descricao;
+        }
+    }
+}

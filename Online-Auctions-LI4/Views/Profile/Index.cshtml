@@ -288,6 +288,40 @@
                         </div>
                     </div>
                 }
+                else if(Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Admin)
+                {
+                    <div class="sidenav">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                            <div class="name">
+                                @Model.First().Key.Name
+                            </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
+                        </div>
+
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
+                                <hr align="center">
+                            </div>
+                            <div class="url">
+                                <a asp-controller="Profile" asp-action="Painel" asp-route-id="@Model.First().Key.Id">Painel</a>
+                            </div>
+                            <div class="url">
+                                <hr align="center">
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
+                        </div>
+                    </div>
+                }
                 else
                 {
                     <div class="sidenav">
@@ -327,9 +361,9 @@
             {
                 if (Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Licitador)
                 {
-                    <div class="sidenav-semProdutos">
+                    <div class="sidenav">
                         <div class="profile" style="text-align: center;align-items: center;">
-                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="180" height="180">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
 
                             <div class="name">
                                 @Model.First().Key.Name
@@ -349,10 +383,40 @@
                                 <hr align="center">
                             </div>
                             <div class="url">
-                                <a href="#settings">Produtos</a>
+                                <a href="#settings">Log Out</a>
+                                <hr align="center">
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if (Model.First().Key.UserEnum == Online_Auctions_LI4.enums.UserEnum.Admin)
+                {
+                    <div class="sidenav">
+                        <div class="profile" style="text-align: center;align-items: center;">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
+
+                            <div class="name">
+                                @Model.First().Key.Name
+                            </div>
+                            <div class="job">
+                                @Model.First().Key.Username
+                            </div>
+                            <div class="loc">
+                                @Model.First().Key.morada
+                            </div>
+                        </div>
+
+                        <div class="sidenav-url">
+                            <div class="url" style="margin-top: 90px;">
+                                <hr align="center">
+                                <a asp-controller="Profile" asp-action="Editar" asp-route-id="@Model.First().Key.Id">Editar Perfil</a>
                                 <hr align="center">
                             </div>
                             <div class="url">
+                                <a asp-controller="Profile" asp-action="Painel" asp-route-id="@Model.First().Key.Id">Painel</a>
+                            </div>
+                            <div class="url">
+                                <hr align="center">
                                 <a href="#settings">Log Out</a>
                                 <hr align="center">
                             </div>
@@ -361,9 +425,9 @@
                 }
                 else
                 {
-                    <div class="sidenav-semProdutos">
+                    <div class="sidenav">
                         <div class="profile" style="text-align: center;align-items: center;">
-                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="180" height="180">
+                            <img src="~/istockphoto-1223671392-612x612.jpg" alt="" width="150" height="150">
 
                             <div class="name">
                                 @Model.First().Key.Name

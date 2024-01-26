@@ -67,5 +67,10 @@ namespace Online_Auctions_LI4.Repositorio.User
         {
             return !_context.Users.Any(u => u.Email == userMail);
         }
+
+        public List<UserModel> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
     }
 }

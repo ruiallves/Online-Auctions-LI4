@@ -12,12 +12,12 @@ namespace Online_Auctions_LI4.Repositorio.Licitacao
         {
             _bancoContext = bancoContext;
         }
-       
+
         public LicitacaoModel Licitar(LicitacaoModel model)
         {
             _bancoContext.Licitacao.Add(model);
             _bancoContext.SaveChanges();
-            return model;   
+            return model;
         }
 
         public LicitacaoModel BuscarUltimaLicitacaoPorLeilao(int leilaoId)
@@ -55,6 +55,16 @@ namespace Online_Auctions_LI4.Repositorio.Licitacao
                 .ToList();
 
             return produtos;
+        }
+
+
+        public int GetValorTotalLicitacoes(int userId)
+        {
+            var valorTotal = _bancoContext.Licitacao
+                .Where(licitacao => licitacao.Utilizador_ID == userId)
+                .Sum(licitacao => licitacao.Valor);
+
+            return valorTotal;
         }
 
     }

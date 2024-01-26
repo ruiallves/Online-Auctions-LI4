@@ -8,5 +8,6 @@ namespace Online_Auctions_LI4.Repositorio.Licitacao
         public LicitacaoModel BuscarUltimaLicitacaoPorLeilao(int leilaoId);
         int ContarLicitacoesPorLeilao(int leilaoId);
         public List<ProdutoModel> BuscarLeiloesPorUsuario(int userId);
+        public int GetValorTotalLicitacoes(int userId);
     }
 }
