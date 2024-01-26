@@ -53,9 +53,9 @@ namespace Online_Auctions_LI4.Repositorio.User
             return userDB;
         }
 
-        public bool IsNIFUnique(int nif)
+        public bool IsNIFUnique(String nif)
         {
-                return !_context.Users.Any(u => u.NIF == nif);
+                return !_context.Users.Any(u => String.Equals(u.NIF,nif));
         }
 
         public bool IsEmailUnique(string email)

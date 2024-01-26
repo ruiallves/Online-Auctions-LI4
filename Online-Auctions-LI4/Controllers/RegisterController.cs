@@ -20,22 +20,22 @@ namespace Online_Auctions_LI4.Controllers
         [HttpPost]
         public IActionResult Registar(UserModel user)
         {
-            // Check if NIF is unique
-            if (!_userRepositorio.IsNIFUnique(user.NIF))
+            if (!_userRepositorio.IsNIFUnique(user.NIF.ToString()))
             {
-                ModelState.AddModelError(nameof(UserModel.NIF), "This NIF is already in use.");
+                TempData["ErroLicitacao"] = "Uma conta com esse NIF já existe, tente novamente.";
+                return RedirectToAction("Index", "Register");
             }
 
-            // Check if email is unique
             if (!_userRepositorio.IsEmailUnique(user.Email))
             {
-                ModelState.AddModelError(nameof(UserModel.Email), "This email is already in use.");
+                TempData["ErroLicitacao"] = "Uma conta com esse Email já existe, tente novamente.";
+                return RedirectToAction("Index", "Register");
             }
 
-            // Check if userMail is unique
-            if (!_userRepositorio.IsUserMailUnique(user.Email))
+            if (!_userRepositorio.IsUserMailUnique(user.Username))
             {
-                ModelState.AddModelError(nameof(UserModel.Email), "This userMail is already in use.");
+                TempData["ErroLicitacao"] = "Uma conta com esse Username já existe, tente novamente.";
+                return RedirectToAction("Index", "Register");
             }
 
             if (!ModelState.IsValid)

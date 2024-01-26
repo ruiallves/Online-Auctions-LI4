@@ -8,7 +8,7 @@ namespace Online_Auctions_LI4.Repositorio.User
         UserModel Register(UserModel user);
         UserModel ProcuraPorId(int userId);
         UserModel Editar(UserModel user);
-        public bool IsNIFUnique(int nif);
+        public bool IsNIFUnique(String nif);
         public bool IsEmailUnique(string email);
         public bool IsUserMailUnique(string userMail);
 
