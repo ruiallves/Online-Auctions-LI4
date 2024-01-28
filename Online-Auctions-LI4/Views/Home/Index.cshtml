@@ -89,9 +89,39 @@
         color:honeydew;
     }
 
+    .nav-filters {
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+
+        .nav-filters a {
+            color: white;
+            text-decoration: none;
+            padding: 7px;
+            margin: 0 5px;
+            border-radius: 7px;
+            background-color: #404040;
+        }
+
+            .nav-filters a:hover {
+                background-color: #777;
+            }
+
+
 </style>
 
-<h2 style="text-align: center; font-weight: bold">Leilões Ativos</h2>
+<nav class="nav-filters" style="display: flex; align-items:center; justify-content:center;">
+    <p style="color: black; margin-top: 15px; margin-right: 5px; font-weight: bold;">Ordenar por</p>
+    <a href="?sortBy=PrecoAsc">Preço(Ascendente)</a>
+    <a href="?sortBy=PrecoDesc">Preço(Descendente)</a>
+    <a href="?sortBy=DataAsc">Data Final(Ascendente)</a>
+    <a href="?sortBy=DataDesc">Data Final(Descendente)</a>
+
+</nav>
+
+
+<h2 style="text-align: center; font-weight: bold; margin-top: 10px;">Leilões Ativos</h2>
 
 <div class="row-product">
     @foreach (var pair in Model)
