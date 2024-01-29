@@ -587,8 +587,14 @@
 
         if (tempoRestante > TimeSpan.Zero)
         {
-            // Formatação do tempo restante
-            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            if (tempoRestante.TotalDays >= 1)
+            {
+                return $"{(int)tempoRestante.TotalDays}d {tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            }
+            else
+            {
+                return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            }
         }
         else
         {

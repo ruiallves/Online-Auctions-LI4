@@ -123,7 +123,7 @@
                             <div class="produto-descricao">
                                 @if (AjustarSemiDescricao(produto.Descricao) != null && produto.Descricao.Length > 0)
                                 {
-                                    @produto.Descricao
+                                    @AjustarSemiDescricao(produto.Descricao)
                                 }
                             </div>
 
@@ -202,8 +202,14 @@ else
 
         if (tempoRestante > TimeSpan.Zero)
         {
-            // Formatação do tempo restante
-            return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            if (tempoRestante.TotalDays >= 1)
+            {
+                return $"{(int)tempoRestante.TotalDays}d {tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            }
+            else
+            {
+                return $"{tempoRestante.Hours:D2}:{tempoRestante.Minutes:D2}:{tempoRestante.Seconds:D2}";
+            }
         }
         else
         {
@@ -213,9 +219,9 @@ else
 
     public String AjustarSemiDescricao(String descricao)
     {
-        if (descricao.Length > 180)
+        if (descricao.Length > 260)
         {
-            return descricao.Substring(0, 180) + "...";
+            return descricao.Substring(0, 260) + "...";
         }
         else
         {
